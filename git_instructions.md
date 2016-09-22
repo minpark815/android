@@ -31,11 +31,11 @@ The way we will develop is as follows.
 3. File a pull request
 
 ##Troubleshooting/FAQ
-Q. Why are we using rebase and not merge?
-A. I don't want the history to have literal thousands of meaningless merges.
+Q. Why are we using rebase and not merge?  
+A. I don't want the history to have literal thousands of meaningless merges.  
 
-Q. What does --rebase do exactly?
-A. When you rebase and then commit, your commits go on top of all the other changes that happened on the remote that made your fork outdated.
+Q. What does --rebase do exactly?  
+A. When you rebase and then commit, your commits go on top of all the other changes that happened on the remote that made your fork outdated.  
 
-Q. What does stash do exactly?
-A. Stash saves your work that are not committed yet. Stash pop will restore said work.
+Q. What does stash do exactly?  
+A. Stash saves your work that are not committed yet. Stash pop will restore said work.  
