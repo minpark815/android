@@ -1,10 +1,10 @@
-##prior-setup
+##Prior-Setup
 if: git remote --v shows something other than "origin" such as "main"  
 do: git remote rm [the name of the remote such as main]  
 
 do: git remote add upstream https://github.com/NaoApp/android.git
 
-##if your forked repo is behind the main repo
+##If Your Forked Repo is Behind the Main Repo
 
 1. You have new commits:  
 do: git pull --rebase upstream [name of branch]  
@@ -15,7 +15,7 @@ do: git pull upstream [name of branch]
 do: git checkout [name of branch]  
 do: git stash pop  
 
-##if you have new updates to the code
+##If You Have New Updates to the Code
 
 do: git add [name of the new file]  
 do: git commit -m "[commit message (Present tense, first letter capital)]"  
