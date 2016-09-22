@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <EditTextPreference android:title="Your Display Name"
+                        android:key="displayname"
+                        android:summary="What do you want your name to be displayed as?"></EditTextPreference>
+    <CheckBoxPreference android:title="Save Content"
+                        android:key = "savecontent"
+                        android:summary="Save content to your phone's storage"></CheckBoxPreference>
+    <SwitchPreference   android:title="Private Profile"
+                        android:key="privacy"
+                        android:summary="Other's won't be able to see you without permission"></SwitchPreference>
+</PreferenceScreen>
