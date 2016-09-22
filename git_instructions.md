@@ -1,6 +1,6 @@
 ##Prior-Setup
 if: git remote --v shows something other than "origin" such as "main"  
-&nbsp;&nbsp;&nbsp;do: git remote rm [the name of the remote such as main]  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do: git remote rm [the name of the remote such as main]  
 
 do: git remote add upstream https://github.com/NaoApp/android.git
 
