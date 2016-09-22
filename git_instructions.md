@@ -8,7 +8,7 @@ do: git remote add upstream https://github.com/NaoApp/android.git
 
 1. You have new commits:  
 do: git pull --rebase upstream [name of branch]  
-2. You don't have new commits:
+2. You don't have new commits:  
 do: git stash  
 do: git checkout [name of branch]  
 do: git pull upstream [name of branch]    
