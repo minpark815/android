@@ -5,7 +5,6 @@ if: git remote --v shows something other than "origin" such as "main"
 do: git remote add upstream https://github.com/NaoApp/android.git
 
 ##If Your Forked Repo is Behind the Main Repo
-
 1. You have new commits:  
 do: git pull --rebase upstream [name of branch]  
 2. You don't have new commits:  
@@ -16,10 +15,9 @@ do: git checkout [name of branch]
 do: git stash pop  
 
 ##If You Have New Updates to the Code
-
 do: git add [name of the new file]  
 do: git commit -m "[commit message (Present tense, first letter capital)]"  
-do: git push origin [name of branch (probably master)]  
+do: git push origin [name of branch]  
 file a new pull request  
 
 ##Workflow
