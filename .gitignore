@@ -34,6 +34,7 @@ proguard/
 # Android Studio
 *.iml
 .idea
+.idea/
 
 # Android Studio Navigation editor temp files
 .navigation/
@@ -44,3 +45,4 @@ captures/
 #files
 .idea/workspace.xml
 app/app.iml
+.idea/libraries/espresso_core_2_2_2.xml
