@@ -2,20 +2,75 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="illinois.nao.nao">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- BEGIN - APP CONTENT DELIVERY AND USER DATA STORAGE -->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
+
+        <activity android:name=".MainActivity"></activity>
+
+        <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
+
+        <service android:name="com.amazonaws.mobile.downloader.service.DownloadService" />
+
+        <receiver android:name="com.amazonaws.mobile.downloader.service.NetworkStateListener"
+            android:exported="false"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="com.amazonaws.mobile.downloader.query.DownloadQueueProvider"
+            android:authorities="@string/download_queue_provider_authority"
+            android:enabled="true"
+            android:exported="false">
+        </provider>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="@string/content_file_provider_authority"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/content_delivery_paths" />
+        </provider>
+
+        <!-- END - APP CONTENT DELIVERY AND USER DATA STORAGE -->
+
+
+        <!-- BEGIN - FACEBOOK SIGN-IN -->
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
+
+        <!-- END - FACEBOOK SIGN-IN -->
+
     </application>
 
 </manifest>

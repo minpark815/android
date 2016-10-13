@@ -3,4 +3,21 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in to your Nao account</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="download_queue_provider_authority">com.amazonaws.mobile.downloader-illinois.nao.nao</string>
+    <string name="content_file_provider_authority">illinois.nao.nao.fileprovider</string>
+    <!--DO NOT CHANGE THIS VALUE AND KEEP IT A SECRET-->
+    <string name="facebook_app_id">701358886696386</string>
+    <!--LAKJWDLKAJWDILOJAWI:LJDOAWIDOWA:ILJD:AWOLIKDJ-->
 </resources>

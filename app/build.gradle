@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "illinois.nao.nao"
         minSdkVersion 16
@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -21,11 +22,14 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:design:23.1.0'
-    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile fileTree(include: ['*.jar'], dir: 'app/libs')
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:support-v4:24.1.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile('com.amazonaws:aws-android-sdk-core:2.2.18')
+    compile('com.amazonaws:aws-android-sdk-cognito:2.2.18')
+    compile('com.amazonaws:aws-android-sdk-s3:2.2.18')
+    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
 }

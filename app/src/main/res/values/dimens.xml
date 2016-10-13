@@ -8,4 +8,11 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="toolbar_height">56dp</dimen>
+
+    <!-- Facebook things -->
+    <dimen name="sign_in_text_margin">20dp</dimen>
+    <dimen name="sign_in_separator_height">2dp</dimen>
+    <dimen name="sign_in_button_margin">10dp</dimen>
+    <dimen name="sign_in_button_width">240dp</dimen>
+    <dimen name="sign_in_button_height">40dp</dimen>
 </resources>
