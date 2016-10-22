@@ -19,5 +19,8 @@
     <string name="content_file_provider_authority">illinois.nao.nao.fileprovider</string>
     <!--DO NOT CHANGE THIS VALUE AND KEEP IT A SECRET-->
     <string name="facebook_app_id">701358886696386</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--LAKJWDLKAJWDILOJAWI:LJDOAWIDOWA:ILJD:AWOLIKDJ-->
 </resources>
