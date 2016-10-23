@@ -11,4 +11,6 @@
     <color name="divider">#B6B6B6</color>
 
     <color name="white">#FFFFFF</color>
+
+    <color name="sign_in_separator_color">#DDDDDD</color>
 </resources>

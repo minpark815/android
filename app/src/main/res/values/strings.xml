@@ -1,6 +1,24 @@
 <resources>
     <string name="app_name">Nao</string>
 
+    <string name="main_nav_menu_item_home">Home</string>
+    <string name="title_activity_item_detail">Item Detail</string>
+    <string name="title_activity_item_list">Item List</string>
+    <string name="title_activity_main">@string/app_name</string>
+    <string name="title_activity_sign_in">Sign-in</string>
+    <string name="button_text_sign_in">SIGN IN</string>
+    <string name="button_text_sign_out">SIGN OUT</string>
+    <string name="sign_in_email">Email</string>
+    <string name="sign_in_password">Password</string>
+    <string name="sign_in_new_account">Create New Account</string>
+    <string name="sign_in_forgot_password">Forgot Your Password?</string>
+    <string name="sign_in_or">or sign in with</string>
+    <string name="main_nav_menu_default_user_text">\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020</string>
+    <string name="content_helper_error_title">No Content Viewer</string>
+    <string name="content_helper_error_no_app">No Viewing App exists for content type \'%s\'.</string>
+
+    <string name="sign_up">Join Nao</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
