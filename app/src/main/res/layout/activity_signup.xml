@@ -88,4 +88,17 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:hint="Phone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="10dp"
+        android:text=" "
+        android:color="@color/alert"
+        android:textColor="@color/alert"
+        android:id="@+id/textViewRegUserErrorMessage"
+        android:layout_centerHorizontal="true" />
+
+
 </android.support.constraint.ConstraintLayout>

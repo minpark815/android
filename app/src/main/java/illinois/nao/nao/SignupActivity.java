@@ -1,11 +1,13 @@
 package illinois.nao.nao;
 
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
@@ -47,22 +49,30 @@ public class SignupActivity extends AppCompatActivity {
 
                 usernameInput = username.getText().toString();
                 if (usernameInput == null || usernameInput.isEmpty()) {
+                    TextView view = (TextView) findViewById(R.id.textViewRegUserErrorMessage);
+                    view.setText("username cannot be empty");
                     return;
                 }
 
                 passwordInput = password.getText().toString();
                 if (passwordInput == null || passwordInput.isEmpty()) {
+                    TextView view = (TextView) findViewById(R.id.textViewRegUserErrorMessage);
+                    view.setText("password cannot be empty");
                     return;
                 }
 
                 emailInput = email.getText().toString();
-                if (emailInput == null) {
+                if (emailInput == null || emailInput.isEmpty()) {
+                    TextView view = (TextView) findViewById(R.id.textViewRegUserErrorMessage);
+                    view.setText("email cannot be empty");
                     return;
                 }
                 userAttributes.addAttribute("email", emailInput);
 
                 phoneInput = phone.getText().toString();
-                if (phoneInput == null) {
+                if (phoneInput == null || phoneInput.isEmpty()) {
+                    TextView view = (TextView) findViewById(R.id.textViewRegUserErrorMessage);
+                    view.setText("phone cannot be empty");
                     return;
                 }
                 userAttributes.addAttribute("phone_number", phoneInput);
@@ -91,8 +101,13 @@ public class SignupActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Exception exception) {
-            Log.i("signup", "FAILUREE");
+            Log.i("signup", "FAILURE");
             Log.i("signup", exception.toString());
+            final AlertDialog.Builder edb = new AlertDialog.Builder(SignupActivity.this);
+            edb.setTitle("Signup Error");
+            edb.setMessage(String.format(exception.getMessage()).substring(0,String.format(exception.getMessage()).indexOf("(")-1));
+            edb.setNeutralButton("Ok", null);
+            edb.show();
         }
     };
 }
