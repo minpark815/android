@@ -88,6 +88,7 @@ public class SignupActivity extends AppCompatActivity {
             }
             else {
                 Log.i("signup", "Fail");
+                // Go to VerifyActivity
             }
         }
 
