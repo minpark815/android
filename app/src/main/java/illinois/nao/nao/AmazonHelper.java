@@ -36,10 +36,18 @@ public class AmazonHelper {
             // Create a user pool with default ClientConfiguration
             userPool = new CognitoUserPool(c, userPoolId, clientId, clientSecret, cognitoRegion);
         }
+
+        newDevice = null;
     }
 
 
     public static CognitoUserPool getPool() {
         return userPool;
+    }
+
+    public static String getCurrUser() { return user; }
+
+    public static void newDevice(CognitoDevice device) {
+        newDevice = device;
     }
 }

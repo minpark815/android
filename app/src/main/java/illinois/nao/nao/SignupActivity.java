@@ -81,6 +81,7 @@ public class SignupActivity extends AppCompatActivity {
             if (regState) {
                 // User is already confirmed
                 Log.i("signup", "Success");
+                // Go to MainActivity
             }
             else {
                 Log.i("signup", "Fail");
