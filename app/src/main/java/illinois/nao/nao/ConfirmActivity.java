@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
@@ -94,6 +95,7 @@ public class ConfirmActivity extends AppCompatActivity {
     }
 
     private void goToLogin() {
+        Toast.makeText(this, "Confirmation success!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, LoginActivity.class);
         startActivity(intent);
     }
