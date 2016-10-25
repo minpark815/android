@@ -8,14 +8,19 @@
     <string name="title_activity_sign_in">Sign-in</string>
     <string name="button_text_sign_in">SIGN IN</string>
     <string name="button_text_sign_out">SIGN OUT</string>
-    <string name="sign_in_email">Email</string>
-    <string name="sign_in_password">Password</string>
-    <string name="sign_in_new_account">Create New Account</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="sign_in_new_account">Wanna try Nao? <b>Sign Up Now.</b></string>
     <string name="sign_in_forgot_password">Forgot Your Password?</string>
     <string name="sign_in_or">or sign in with</string>
     <string name="main_nav_menu_default_user_text">\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020</string>
     <string name="content_helper_error_title">No Content Viewer</string>
     <string name="content_helper_error_no_app">No Viewing App exists for content type \'%s\'.</string>
+
+    <string name="signup_existingaccount">Already a part of Nao? <b>Log in here.</b></string>
+
+    <!-- Confirm Activity -->
+    <string name="confirm_resendtext">Didn\'t get your code? <b>Resend it here.</b></string>
 
     <string name="sign_up">Join Nao</string>
 

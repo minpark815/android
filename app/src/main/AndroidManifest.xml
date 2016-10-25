@@ -58,7 +58,7 @@
         </provider>
 
         <!-- END - APP CONTENT DELIVERY AND USER DATA STORAGE -->
-        <activity android:name=".VerifyActivity"></activity>
+        <activity android:name=".ConfirmActivity"></activity>
     </application>
 
 </manifest>

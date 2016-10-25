@@ -47,6 +47,8 @@ public class AmazonHelper {
 
     public static String getCurrUser() { return user; }
 
+    public static void setUser(String u) { user = u; }
+
     public static void newDevice(CognitoDevice device) {
         newDevice = device;
     }
