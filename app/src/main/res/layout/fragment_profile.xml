@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/scrollView_profile"
-    tools:context="illinois.nao.nao.Pages.ProfileFragment">
+    tools:context="illinois.nao.nao.Pages.ProfileFragment"
+    android:fillViewport="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -74,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@+id/button_followers" />
 
         <Button
-            android:id="@+id/button_audio"
+            android:id="@+id/profile_button_audio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -82,7 +83,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="~~~~~~~~ Play ~~~~~~~~"
+            android:text="~~~~~~~~ Play Audio ~~~~~~~~"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -100,35 +101,42 @@
             app:layout_constraintHorizontal_bias="0.52"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_audio" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_button_audio" />
 
-        <VideoView
-            android:id="@+id/videoView"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/textView_textContent"
-            android:layout_marginEnd="16dp"
-            android:layout_width="0dp"
-            android:layout_height="600dp"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="300dp"
-            android:id="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/videoView"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="16dp" />
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/imageView2"
+                android:background="@color/colorAccent"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="8dp"
+                android:layout_marginBottom="32dp" />
+
+            <nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer
+                android:id="@+id/profile_videoplayer"
+                android:layout_width="match_parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_textContent"
+                app:layout_constraintBottom_toTopOf="@+id/imageView2"
+                android:layout_height="400dp">
+
+            </nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer>
+
+        </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
