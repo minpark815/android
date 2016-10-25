@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.VideoView;
 
@@ -18,8 +19,7 @@ import illinois.nao.nao.R;
 public class ProfileFragment extends Fragment {
 
     @BindView(R.id.videoView) VideoView videoView;
-    @BindView(R.id.scrollView_profile)
-    ScrollView scrollView;
+    @BindView(R.id.button_audio) Button buttonAudio;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,17 @@ public class ProfileFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         videoView.setVideoURI(Uri.parse("android.resource://illinois.nao.nao/" + R.raw.naovideo));
-        videoView.start();
+
+        buttonAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(videoView.isPlaying()) {
+                    videoView.pause();
+                } else {
+                    videoView.start();
+                }
+            }
+        });
 
         return view;
     }

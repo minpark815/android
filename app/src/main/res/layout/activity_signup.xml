@@ -90,15 +90,21 @@
         android:hint="Phone" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:text="Error Code Here"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="10dp"
-        android:text=" "
-        android:color="@color/alert"
-        android:textColor="@color/alert"
         android:id="@+id/textViewRegUserErrorMessage"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/editText_username"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.98" />
 
 
 </android.support.constraint.ConstraintLayout>

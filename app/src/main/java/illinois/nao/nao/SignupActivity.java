@@ -1,6 +1,8 @@
 package illinois.nao.nao;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +32,8 @@ public class SignupActivity extends AppCompatActivity {
     private String phoneInput;
     private String passwordInput;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,8 @@ public class SignupActivity extends AppCompatActivity {
 
         AmazonHelper.init(this);
         init();
+
+        context = this;
     }
 
     private void init() {
@@ -96,6 +102,7 @@ public class SignupActivity extends AppCompatActivity {
             else {
                 Log.i("signup", "Fail");
                 // Go to VerifyActivity
+                go();
             }
         }
 
@@ -110,4 +117,9 @@ public class SignupActivity extends AppCompatActivity {
             edb.show();
         }
     };
+
+    private void go() {
+        Intent intent = new Intent(context, VerifyActivity.class);
+        startActivity(intent);
+    }
 }
