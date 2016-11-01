@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_picture"
-            android:icon="@drawable/ic_home_black_24dp"
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
             android:title="Main" />
         <item
             android:id="@+id/nav_gallery"
@@ -19,18 +19,6 @@
             android:title="Tools" />
     </group>
 
-    <item android:title="Actions">
-        <menu>
-            <item
-                android:id="@+id/nav_take_picture"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="Take a Picture"/>
-            <item
-                android:id="@+id/nav_video"
-                android:icon="@drawable/ic_movie_creation_black_24dp"
-                android:title="Record Video"/>
-        </menu>
-    </item>
     <item android:title="Account">
         <menu>
             <item
