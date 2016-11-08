@@ -16,9 +16,9 @@ public class AmazonHelper {
     private static CognitoDevice newDevice;
     private static AmazonHelper instance;
 
-    private static final String userPoolId = "us-east-1_mPda1wHoN";
-    private static final String clientId = "4vdvvt8prlfqtomf31n83vf4nf";
-    private static final String clientSecret = "d79576ja4op5tsge1qm9k6o5m6t5leei0gj8mfr06ltfehsieg";
+    private static final String userPoolId = "us-east-1_TtksO8fQP";
+    private static final String clientId = "1vnj95783jtrs0nml1q3df85rv";
+    private static final String clientSecret = "1j2mql1gjaj69st6ogjafllh5i4bmu0gdiakc3mv5fodo8app4e8";
     private static final Regions cognitoRegion = Regions.US_EAST_1;
 
     public static void init(Context c) {
