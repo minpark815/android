@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import butterknife.ButterKnife;
 import illinois.nao.nao.R;
 import illinois.nao.nao.Storage.StorageHelper;
+import illinois.nao.nao.User.PostEvent;
 
 /**
  * Created by harryarakkal on 12/6/16.
@@ -27,14 +29,12 @@ import illinois.nao.nao.Storage.StorageHelper;
 
 public class PostDialog extends Dialog implements View.OnClickListener {
 
-    private MediaRecorder recorder;
-    private boolean recording = false;
     private EditText body;
-    private DatabaseReference databaseReference;
+    private String userName;
 
-    public PostDialog(Context context, DatabaseReference databaseReference) {
+    public PostDialog(Context context, String userName) {
         super(context);
-        this.databaseReference = databaseReference;
+        this.userName = userName;
     }
 
     @Override
@@ -54,7 +54,10 @@ public class PostDialog extends Dialog implements View.OnClickListener {
     public void onClick(View view) {
         if(view.getId() == R.id.submit_post){
             String postBody = body.getText().toString();
-            databaseReference.setValue(postBody);
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(userName).child("profileDescription");
+            reference.setValue(postBody);
+            StorageHelper.pushToFeed(userName, PostEvent.Type.TEXT);
             dismiss();
         } else if (view.getId() == R.id.cancel_post) {
             dismiss();

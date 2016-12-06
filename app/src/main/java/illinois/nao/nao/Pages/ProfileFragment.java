@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -113,8 +114,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         populateVideo();
         populateAudio();
 
-        videoPlayer = (ExposureVideoPlayer) view.findViewById(R.id.profile_videoplayer);
-
         FloatingActionButton photo = (FloatingActionButton) view.findViewById(R.id.add_photo);
         FloatingActionButton video = (FloatingActionButton) view.findViewById(R.id.record_video);
         FloatingActionButton text  = (FloatingActionButton) view.findViewById(R.id.write_post);
@@ -161,9 +160,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         ValueEventListener userTextListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("profileDescription").getValue() != null) {
-                    String text = dataSnapshot.child("profileDescription").getValue(String.class);
-                    textContent.setText(text);
+                if (dataSnapshot.getValue() != null) {
+                    try {
+                        String text = dataSnapshot.getValue(String.class);
+                        textContent.setText(text);
+                        Log.d(TAG, "text set to" + text);
+                    } catch (DatabaseException e) {
+                        mUsersRef.child(mUser.getDisplayName()).child("profileDescription").setValue(null);
+                    }
                 }
             }
 
@@ -173,7 +177,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         };
 
-        mUsersRef.child(mUser.getDisplayName()).addListenerForSingleValueEvent(userTextListener);
+        mUsersRef.child(mUser.getDisplayName()).child("profileDescription").addListenerForSingleValueEvent(userTextListener);
     }
 
     public void populateImage() {
@@ -198,7 +202,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     // Handle any errors
                 }
             });
-
+            videoPlayer.setVideoSource(Uri.fromFile(videoFile));
         } catch (IOException e) {
             Log.d(TAG, "exception downloading files");
         }
@@ -305,7 +309,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             dialog.setTitle("Record Audio");
             dialog.show();
         }else if(button == R.id.write_post){
-            PostDialog dialog = new PostDialog(view.getContext(), mUsersRef.child(mUser.getDisplayName()));
+            PostDialog dialog = new PostDialog(view.getContext(), mUser.getDisplayName());
             dialog.show();
         }
 
