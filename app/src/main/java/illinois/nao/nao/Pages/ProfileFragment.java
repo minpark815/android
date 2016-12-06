@@ -10,6 +10,7 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.NestedScrollView;
@@ -77,15 +78,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.textView_name) TextView name;
     @BindView(R.id.imageView2) ImageView imageContent;
     @BindView(R.id.imageView) ImageView profilePicture;
+    @BindView(R.id.floatingActionMenu) FloatingActionMenu floatingActionMenu;
 
     private MediaPlayer mp;
     private FirebaseUser mUser;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mUsersRef;
+    private DatabaseReference mUserRef;
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
     private StorageReference mUserStorageRef;
     private StorageReference mAllUserStorageRef;
+    private String userName;
     private File audioFile;
     private File videoFile;
 
@@ -93,12 +97,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (getArguments() != null && getArguments().getString("userName") != null) {
+            userName = getArguments().getString("userName");
+        } else {
+            userName = mUser.getDisplayName();
+        }
         mDatabase = FirebaseDatabase.getInstance();
         mUsersRef = mDatabase.getReference("users");
+        mUserRef = mUsersRef.child(userName);
         mStorage = FirebaseStorage.getInstance();
         mStorageRef  = mStorage.getReferenceFromUrl("gs://nao-app-bc1b6.appspot.com");
         mAllUserStorageRef = mStorageRef.child("users");
-        mUserStorageRef = mStorageRef.child("users").child(mUser.getDisplayName());
+        mUserStorageRef = mStorageRef.child("users").child(userName);
+
     }
 
     @Override
@@ -109,7 +120,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         ButterKnife.bind(this, view);
 
         // videoPlayer.setVideoSource(Uri.parse("android.resource://illinois.nao.nao/" + R.raw.naovideo));
-        name.setText(mUser.getDisplayName());
+        name.setText(userName);
         populateProfilePicture();
         populateText();
         populateImage();
@@ -124,6 +135,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         video.setOnClickListener(this);
         text.setOnClickListener(this);
         audio.setOnClickListener(this);
+
+        if (!userName.equals(mUser.getDisplayName())) {
+            floatingActionMenu.setVisibility(View.GONE);
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) floatingActionMenu.getLayoutParams();
+            params.setBehavior(null);
+            floatingActionMenu.setLayoutParams(params);
+        }
 
         buttonAudio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +186,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         textContent.setText(text);
                         Log.d(TAG, "text set to" + text);
                     } catch (DatabaseException e) {
-                        mUsersRef.child(mUser.getDisplayName()).child("profileDescription").setValue(null);
+                        mUserRef.child("profileDescription").setValue(null);
                     }
                 }
             }
@@ -179,7 +197,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         };
 
-        mUsersRef.child(mUser.getDisplayName()).child("profileDescription").addListenerForSingleValueEvent(userTextListener);
+        mUsersRef.child(userName).child("profileDescription").addListenerForSingleValueEvent(userTextListener);
     }
 
     public void populateImage() {
@@ -190,7 +208,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void populateVideo() {
         try {
             videoFile = File.createTempFile("video", "mp4");
-            StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("video");
+            StorageReference userVideoRef = mAllUserStorageRef.child(userName).child("video");
             userVideoRef.getFile(videoFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -214,7 +232,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void populateAudio() {
         try {
             audioFile = File.createTempFile("audio", "mp3");
-            StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("audio");
+            StorageReference userVideoRef = mAllUserStorageRef.child(userName).child("audio");
             userVideoRef.getFile(audioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -240,7 +258,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     public void uploadText(String text) {
-        DatabaseReference textRef = mUsersRef.child(mUser.getDisplayName());
+        DatabaseReference textRef = mUsersRef.child(userName);
         textRef.setValue(text);
         StorageHelper.pushToFeed(mUser.getDisplayName(), PostEvent.Type.TEXT);
     }

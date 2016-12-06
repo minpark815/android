@@ -65,7 +65,6 @@ public class StorageHelper {
                     PostEvent event = postEvent.getValue(PostEvent.class);
                     if (event.getType().equals(type) && event.getAuthor().equals(userName)) {
                         FirebaseDatabase.getInstance().getReference("newsfeed").child(postEvent.getKey()).setValue(null);
-
                     }
                 }
                 FirebaseDatabase.getInstance().getReference("newsfeed").push().setValue(new PostEvent(userName, type));
