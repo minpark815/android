@@ -51,16 +51,22 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.imageView2) ImageView imageContent;
 
     private MediaPlayer mp;
-    private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mUsersRef = mDatabase.getReference("users");
-    private FirebaseStorage mStorage = FirebaseStorage.getInstance();
-    private StorageReference mStorageRef = mStorage.getReferenceFromUrl("gs://nao-app-bc1b6.appspot.com");
-    private StorageReference mUserStorageRef = mStorageRef.child(mUser.getDisplayName());
+    private FirebaseUser mUser;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mUsersRef;
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageRef;
+    private StorageReference mUserStorageRef;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance();
+        mUsersRef = mDatabase.getReference("users");
+        mStorage = FirebaseStorage.getInstance();
+        mStorageRef  = mStorage.getReferenceFromUrl("gs://nao-app-bc1b6.appspot.com");
+        mUserStorageRef = mStorageRef.child(mUser.getDisplayName());
     }
 
     @Override
@@ -91,7 +97,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
+        populateImage("dleric");
         return view;
     }
 

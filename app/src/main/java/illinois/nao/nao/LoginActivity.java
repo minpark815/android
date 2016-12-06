@@ -30,9 +30,12 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    @BindView(R.id.login_textview_createnewaccount) TextView createNewAccount;
-    @BindView(R.id.login_edittext_email) EditText usernameEditText;
-    @BindView(R.id.login_edittext_password) EditText passwordEditText;
+    @BindView(R.id.login_textview_createnewaccount)
+    TextView createNewAccount;
+    @BindView(R.id.login_edittext_email)
+    EditText usernameEditText;
+    @BindView(R.id.login_edittext_password)
+    EditText passwordEditText;
 
     private String username;
     private String password;
@@ -78,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
         username = usernameEditText.getText().toString().trim();
 
-        if(username == null || username.isEmpty()) {
+        if (username == null || username.isEmpty()) {
             usernameEditText.setError("Forget to enter your username?");
             return;
         }
@@ -86,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
         password = passwordEditText.getText().toString();
 
-        if(password == null || password.isEmpty()) {
+        if (password == null || password.isEmpty()) {
             passwordEditText.setError("Forget to enter your password?");
             return;
         }
@@ -98,11 +101,14 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
-                        goToMainActivity();
+                        if (task.isSuccessful()) {
+                            goToMainActivity();
+                        }
+
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+                        else {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                         }
 
