@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,7 +71,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.profile_videoplayer) ExposureVideoPlayer videoPlayer;
     @BindView(R.id.profile_button_audio) ImageButton buttonAudio;
-    @BindView(R.id.scrollView_profile) ScrollView scrollView;
+    @BindView(R.id.scrollView_profile) NestedScrollView scrollView;
     @BindView(R.id.textView_textContent) TextView textContent;
     @BindView(R.id.textView_name) TextView name;
     @BindView(R.id.imageView2) ImageView imageContent;
@@ -202,7 +203,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     // Handle any errors
                 }
             });
-            videoPlayer.setVideoSource(Uri.fromFile(videoFile));
         } catch (IOException e) {
             Log.d(TAG, "exception downloading files");
         }
