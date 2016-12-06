@@ -3,15 +3,20 @@ package illinois.nao.nao.Pages;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.BindView;
 import illinois.nao.nao.R;
 
 public class SearchFragment extends Fragment {
+
+    @BindView(R.id.recyclerView_users) RecyclerView userList;
+
     public SearchFragment() {
         // Required empty public constructor
     }

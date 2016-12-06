@@ -2,6 +2,7 @@ package illinois.nao.nao.Storage;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +47,7 @@ public class StorageHelper {
     }
 
     public static void pushToFeed(String userName, PostEvent.Type type) {
-        FirebaseDatabase.getInstance().getReference("newsfeed").push().setValue(new PostEvent(userName, type));
+        FirebaseDatabase.getInstance().getReference("users").push().setValue(new PostEvent(userName, type));
+        Log.d("PUSH", "push to newsfeed");
     }
 }
