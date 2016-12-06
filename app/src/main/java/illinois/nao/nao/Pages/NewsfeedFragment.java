@@ -3,6 +3,7 @@ package illinois.nao.nao.Pages;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,12 +11,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,7 +101,21 @@ public class NewsfeedFragment extends Fragment {
                     default:
                         break;
                 }
+
+                final TextView usernameView = (TextView) viewHolder.itemView.findViewById(R.id.username_text);
+                usernameView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                        ProfileFragment fragment = new ProfileFragment();
+                        Bundle args = new Bundle();
+                        args.putString("userName", usernameView.getText().toString());
+                        fragment.setArguments(args);
+                        manager.beginTransaction().replace(R.id.content_holder, fragment).commit();
+                    }
+                });
             }
+
 
             @Override
             public int getItemViewType(int position) {
