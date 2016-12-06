@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
         // toolbar_content.setNavigationIcon(R.drawable.icon);
 
         setSupportActionBar(toolbar);
