@@ -11,31 +11,32 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import illinois.nao.nao.Pages.NewsfeedFragment;
 import illinois.nao.nao.Pages.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FragmentManager fragmentManager;
+    @BindView(R.id.main_toolbar_title) TextView toolbarTitle;
+    @BindView(R.id.bottom_navigation) AHBottomNavigation bottomNavigation;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    AHBottomNavigation bottomNavigation;
-    Toolbar toolbar;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         // toolbar_content.setNavigationIcon(R.drawable.icon);
-
+        toolbarTitle.setText("Nao");
         setSupportActionBar(toolbar);
 
         // ********* SET UP BOTTOM NAVIGATION ********
