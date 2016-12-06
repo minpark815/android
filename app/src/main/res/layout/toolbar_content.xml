@@ -9,8 +9,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="4dp">
+        android:layout_height="wrap_content">
 
         <illinois.nao.nao.UX.CenteredToolbar xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/toolbar"
