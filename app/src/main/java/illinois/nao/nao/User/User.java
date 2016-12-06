@@ -16,7 +16,6 @@ public class User {
 
     private static final String TAG = "User";
 
-    private String uid;
     private String displayName;
     private String userName;
     private String profileDescription;
@@ -27,7 +26,6 @@ public class User {
     }
 
     public User(FirebaseUser firebaseUser, String displayName, String userName) {
-        this.uid = firebaseUser.getUid();
         this.displayName = displayName;
         this.userName = userName;
         this.email = firebaseUser.getEmail();
@@ -45,13 +43,9 @@ public class User {
                 });
     }
 
-    public String getUid() {
-        return uid;
-    }
+    public String getEmail() { return email; }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     public String getDisplayName() {
         return displayName;
