@@ -20,6 +20,7 @@ public class User {
     private String userName;
     private String profileDescription;
     private String email;
+    private String uid;
 
     public User() {
 
@@ -29,6 +30,7 @@ public class User {
         this.displayName = displayName;
         this.userName = userName;
         this.email = firebaseUser.getEmail();
+        this.uid = firebaseUser.getUid();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(displayName).build();
@@ -42,6 +44,10 @@ public class User {
                     }
                 });
     }
+
+    public String getUid() { return uid; }
+
+    public void setUid(String uid) { this.uid = uid; }
 
     public String getEmail() { return email; }
 
