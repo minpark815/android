@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/scrollView_profile"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:context="illinois.nao.nao.Pages.ProfileFragment"
     android:fillViewport="true">
 
@@ -141,4 +142,30 @@
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
+    <com.github.clans.fab.FloatingActionMenu
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="72dp"
+        fab:menu_icon="@drawable/ic_add_white_24dp">
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/write_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_message_white_18dp"
+            fab:fab_size="mini"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/record_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_movie_white_18dp"
+            fab:fab_size="mini"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/add_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera_alt_white_18dp"
+            fab:fab_size="mini"/>
+    </com.github.clans.fab.FloatingActionMenu>
 </ScrollView>
