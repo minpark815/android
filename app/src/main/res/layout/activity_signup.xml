@@ -37,15 +37,15 @@
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="32dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="32dp"
+            android:layout_marginLeft="16dp"
             app:layout_constraintBottom_toTopOf="@+id/signin_bottom_linearlayout"
             app:layout_constraintHorizontal_bias="0.66"
-            android:layout_marginBottom="64dp">
+            android:layout_marginBottom="32dp">
 
             <TextView
                 android:id="@+id/textViewRegUserErrorMessage"
@@ -59,26 +59,25 @@
                 android:layout_height="40dp" />
 
             <EditText
+                android:id="@+id/editText_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Name"
+                android:inputType="textEmailAddress"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp" />
+
+            <EditText
                 android:id="@+id/editText_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Username"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/editText_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Phone"
-                android:inputType="phone"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_email"
                 android:layout_marginTop="10dp" />
 
             <EditText
@@ -86,11 +85,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="E-Mail"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_password"
                 android:layout_marginTop="10dp" />
 
             <EditText
@@ -102,7 +100,19 @@
                 android:inputType="textPassword"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_username"
+                app:layout_constraintTop_toBottomOf="@+id/editText_email"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:id="@+id/editText_password_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_password"
                 android:layout_marginTop="10dp" />
 
             <Button

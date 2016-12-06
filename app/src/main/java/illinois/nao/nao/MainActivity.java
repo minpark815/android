@@ -9,12 +9,23 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import illinois.nao.nao.Pages.NewsfeedFragment;
 import illinois.nao.nao.Pages.ProfileFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.bottom_navigation) AHBottomNavigation bottomNavigation;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     private FragmentManager fragmentManager;
 
@@ -22,54 +33,78 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
         // toolbar_content.setNavigationIcon(R.drawable.icon);
+        toolbar.setTitle("Nao");
 
         setSupportActionBar(toolbar);
 
+        // ********* SET UP BOTTOM NAVIGATION ********
+        // Create items
+        AHBottomNavigationItem newsfeed = new AHBottomNavigationItem(R.string.newsfeed,
+                R.drawable.ic_event_note_black_24dp, R.color.cardview_light_background);
+
+        AHBottomNavigationItem profile = new AHBottomNavigationItem(R.string.profile,
+                R.drawable.ic_person_black_24dp, R.color.cardview_light_background);
+
+        AHBottomNavigationItem search = new AHBottomNavigationItem(R.string.search,
+                R.drawable.ic_search_black_24dp, R.color.cardview_light_background);
+
+        bottomNavigation.addItem(search);
+        bottomNavigation.addItem(profile);
+        bottomNavigation.addItem(newsfeed);
+
+        bottomNavigation.setCurrentItem(1);
+
+        // Set listeners
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                switch(position) {
+                    case 0:
+                        // Search
+                        goToSearch();
+                        break;
+                    case 1:
+                        // Profile
+                        goToProfile();
+                        break;
+                    case 2:
+                        // Newsfeed
+                        goToNewsfeed();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        // *******************************************
+
         fragmentManager = getSupportFragmentManager();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
         // Our starting page
+        goToProfile();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_menu, menu);
+        return true;
+    }
+
+    private void goToSearch() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_holder, new NewsfeedFragment()).commit();
+    }
+
+    private void goToProfile() {
         fragmentManager.beginTransaction()
                 .replace(R.id.content_holder, new ProfileFragment()).commit();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void goToPostActivity(View v) {
-
+    private void goToNewsfeed() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_holder, new NewsfeedFragment()).commit();
     }
 }

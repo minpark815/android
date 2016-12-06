@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "840712217894",
+    "firebase_url": "https://nao-app-bc1b6.firebaseio.com",
+    "project_id": "nao-app-bc1b6",
+    "storage_bucket": "nao-app-bc1b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840712217894:android:3e82cfb6c2430e8d",
+        "android_client_info": {
+          "package_name": "illinois.nao.nao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840712217894-jmpl6po6tdetsndals0js1vesq6v2kla.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "illinois.nao.nao",
+            "certificate_hash": "993A8DE915F4433F8E96D8E99B838D42D44BF364"
+          }
+        },
+        {
+          "client_id": "840712217894-sr37b9qt85l1lu56vmcmebae860tretn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIr3H74t9iw4CYsGfoP2MkRESmnilnN8M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840712217894-sr37b9qt85l1lu56vmcmebae860tretn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
