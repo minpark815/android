@@ -12,7 +12,10 @@ import com.bumptech.glide.signature.StringSignature;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -54,7 +57,27 @@ public class StorageHelper {
         });
     }
 
-    public static void pushToFeed(String userName, PostEvent.Type type) {
-        FirebaseDatabase.getInstance().getReference("newsfeed").push().setValue(new PostEvent(userName, type));
+    public static void pushToFeed(final String userName, final PostEvent.Type type) {
+        ValueEventListener duplicateListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postEvent : dataSnapshot.getChildren()) {
+                    PostEvent event = postEvent.getValue(PostEvent.class);
+                    if (event.getType().equals(type) && event.getAuthor().equals(userName)) {
+                        FirebaseDatabase.getInstance().getReference("newsfeed").child(postEvent.getKey()).setValue(null);
+
+                    }
+                }
+                FirebaseDatabase.getInstance().getReference("newsfeed").push().setValue(new PostEvent(userName, type));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        FirebaseDatabase.getInstance().getReference("newsfeed").addListenerForSingleValueEvent(duplicateListener);
+
     }
 }
