@@ -213,7 +213,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     // Local temp file has been created
 
-                    mp = MediaPlayer.create(getContext(), Uri.fromFile(file));
+                    mp = MediaPlayer.create(getContext(), Uri.fromFile(audioFile));
                     Log.d(TAG, "media player created");
                 }
             }).addOnFailureListener(new OnFailureListener() {
