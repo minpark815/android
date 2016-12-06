@@ -2,6 +2,7 @@ package illinois.nao.nao;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -63,7 +64,6 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void signUp(View v) {
-
         if (password.getText().toString().equals(confirmPassword.getText().toString())) {
             Log.d(TAG, "suh dude");
             mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
@@ -109,7 +109,19 @@ public class SignupActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            // TODO: passwords do not match
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setCancelable(true);
+            adb.setMessage("Are you sure the password and password confirmation matches?");
+            adb.setPositiveButton(
+                    "Try Again",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            AlertDialog alertPasswordMismatch = adb.create();
+            alertPasswordMismatch.show();
         }
     }
 

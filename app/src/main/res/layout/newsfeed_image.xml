@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
+    android:layout_margin="16dp"
     >
 
     <LinearLayout
@@ -12,26 +13,22 @@
         android:orientation="vertical"
         >
 
-        <ImageView
-            android:id="@+id/newsfeed_image"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginLeft="16dp"
-            android:scaleType="centerCrop"
-            tools:ignore="ContentDescription"/>
-
         <TextView
             android:id="@+id/username_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/appImage"
-            android:paddingLeft="16sp"
-            android:paddingRight="16dp"
+            android:layout_margin="8dp"
             android:text="Title"
-            android:textColor="#000"
-            android:textSize="18sp"
-            tools:ignore="RtlHardcoded"/>
+            tools:ignore="RtlHardcoded"
+            android:textAppearance="@style/Material.TextAppearance.SimpleDialog.Light"
+            android:textStyle="italic" />
 
+        <ImageView
+            android:id="@+id/newsfeed_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

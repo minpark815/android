@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Text;
 
@@ -23,12 +25,14 @@ import java.net.URI;
 
 import butterknife.BindView;
 import illinois.nao.nao.R;
+import illinois.nao.nao.Storage.StorageHelper;
 
 public class SearchFragment extends Fragment {
 
     @BindView(R.id.recyclerView_users) RecyclerView userList;
     FirebaseRecyclerAdapter<User, UserHolder> mRecyclerViewAdapter;
     private FirebaseDatabase database;
+    private StorageReference storageReference;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -37,6 +41,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://nao-app-bc1b6.appspot.com").child("users");
     }
 
     @Override
@@ -48,7 +53,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(UserHolder viewHolder, User user, int position) {
-                viewHolder.name.setText(user.getUserName());
+                viewHolder.bind(user, storageReference);
             }
         };
         View view = inflater.inflate(R.layout.fragment_search, container, false);
@@ -111,9 +116,12 @@ public class SearchFragment extends Fragment {
             name = (TextView) view.findViewById(R.id.search_name);
         }
 
-        public void setName(String n){
-            name.setText(n);
+        public void bind(User user, StorageReference storageRef) {
+            name.setText(user.getUserName());
+            StorageReference imageRef = storageRef.child(user.getUserName()).child("profile");
+            StorageHelper.populateImage(imageRef, profile);
         }
+
     }
 
 }
