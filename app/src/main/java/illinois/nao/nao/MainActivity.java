@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.addItem(profile);
         bottomNavigation.addItem(newsfeed);
 
+        bottomNavigation.setBehaviorTranslationEnabled(false);
         bottomNavigation.setCurrentItem(1);
 
         // Set listeners
