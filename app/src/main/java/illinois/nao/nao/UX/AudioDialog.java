@@ -3,15 +3,19 @@ package illinois.nao.nao.UX;
 import android.app.Dialog;
 import android.content.Context;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.storage.StorageReference;
+
 import java.io.File;
 import java.io.IOException;
 
 import illinois.nao.nao.R;
+import illinois.nao.nao.Storage.StorageHelper;
 
 /**
  * Created by harryarakkal on 12/6/16.
@@ -21,9 +25,12 @@ public class AudioDialog extends Dialog implements View.OnClickListener {
 
     private MediaRecorder recorder;
     private boolean recording = false;
+    private StorageReference storage;
+    private File image;
 
-    public AudioDialog(Context context) {
+    public AudioDialog(Context context, StorageReference storage) {
         super(context);
+        this.storage = storage;
     }
 
     @Override
@@ -35,7 +42,7 @@ public class AudioDialog extends Dialog implements View.OnClickListener {
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         System.out.println(storageDir);
-        File image = null;
+        image = null;
         try {
             image = File.createTempFile(
                     "recording",
@@ -80,6 +87,7 @@ public class AudioDialog extends Dialog implements View.OnClickListener {
             }
         } else {
             System.out.println("Cancel");
+            StorageHelper.uploadFile(Uri.fromFile(image), storage.child("audio"));
             this.dismiss();
         }
     }

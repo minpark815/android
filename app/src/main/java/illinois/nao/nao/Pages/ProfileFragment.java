@@ -306,7 +306,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             builder.show();
         }else if(button == R.id.record_audio){
             System.out.println("record");
-            AudioDialog dialog = new AudioDialog(view.getContext());
+            AudioDialog dialog = new AudioDialog(view.getContext(), mUserStorageRef);
             dialog.setContentView(R.layout.audio_dialog);
             dialog.setTitle("Record Audio");
             dialog.show();
