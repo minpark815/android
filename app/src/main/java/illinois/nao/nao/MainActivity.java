@@ -21,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import illinois.nao.nao.Pages.NewsfeedFragment;
 import illinois.nao.nao.Pages.ProfileFragment;
+import illinois.nao.nao.Pages.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,12 +89,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.profile_menu, menu);
-        return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menu_account_settings:
+                goToSettings();
+                break;
+            case R.id.menu_settings_back:
+                goToProfile();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void goToSettings() {
+        toolbar.setTitle("Settings");
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_holder, new SettingsFragment()).commit();
     }
 
     private void goToSearch() {
+        toolbar.setTitle("Search");
         fragmentManager.beginTransaction()
                 .replace(R.id.content_holder, new NewsfeedFragment()).commit();
     }
@@ -104,7 +119,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToNewsfeed() {
+        toolbar.setTitle("Newsfeed");
         fragmentManager.beginTransaction()
                 .replace(R.id.content_holder, new NewsfeedFragment()).commit();
+    }
+
+    @Override
+    public void onBackPressed(){
+        // Nothing
     }
 }
