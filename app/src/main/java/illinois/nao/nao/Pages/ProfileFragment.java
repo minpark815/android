@@ -1,5 +1,6 @@
 package illinois.nao.nao.Pages;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -220,33 +221,56 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {
-        int button = view.getId();
-        if(button == R.id.add_photo){
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            // Ensure that there's a camera activity to handle the intent
-            if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                // Create the File where the photo should go
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
-                    // Error occurred while creating the File
+    public void onClick(final View view) {
+        final int button = view.getId();
+        CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        if(button == R.id.record_video){
+            options[0] = "Record Video";
+        }
+        if(button == R.id.add_photo || button == R.id.record_video){
+            final CharSequence[] choices = options;
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view.getContext());
+            builder.setTitle("Add Photo");
+            builder.setItems(choices, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if(i == 0 && button == R.id.add_photo){
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        // Ensure that there's a camera activity to handle the intent
+                        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                            // Create the File where the photo should go
+                            File photoFile = null;
+                            try {
+                                photoFile = createImageFile();
+                            } catch (IOException ex) {
+                                // Error occurred while creating the File
+                            }
+                            // Continue only if the File was successfully created
+                            if (photoFile != null) {
+                                Uri photoURI = FileProvider.getUriForFile(view.getContext(),
+                                        "illinois.nao.nao.fileprovider",
+                                        photoFile);
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                            }
+                        }
+                    }else if(i == 0 && button == R.id.record_video){
+                        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                        if (takeVideoIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                            startActivityForResult(takeVideoIntent, REQUEST_RECORD_VIDEO);
+                        }
+                    }else if(i == 1){
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_MEDIA_FILE);
+                        System.out.println("Pick from Gallery");
+                    }else if(i == 2){
+                        dialogInterface.dismiss();
+                    }
                 }
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(view.getContext(),
-                            "illinois.nao.nao.fileprovider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                }
-            }
-        }else if(button == R.id.record_video){
-            Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            if (takeVideoIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                startActivityForResult(takeVideoIntent, REQUEST_RECORD_VIDEO);
-            }
+            });
+            builder.show();
         }
     }
 
