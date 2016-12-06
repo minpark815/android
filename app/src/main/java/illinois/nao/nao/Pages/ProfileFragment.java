@@ -51,16 +51,24 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.imageView2) ImageView imageContent;
 
     private MediaPlayer mp;
-    private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mUsersRef = mDatabase.getReference("users");
-    private FirebaseStorage mStorage = FirebaseStorage.getInstance();
-    private StorageReference mStorageRef = mStorage.getReferenceFromUrl("gs://nao-app-bc1b6.appspot.com");
-    private StorageReference mUserStorageRef = mStorageRef.child(mUser.getDisplayName());
+    private FirebaseUser mUser;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mUsersRef;
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageRef;
+    private StorageReference mUserStorageRef;
+    private StorageReference mAllUserStorageRef;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance();
+        mUsersRef = mDatabase.getReference("users");
+        mStorage = FirebaseStorage.getInstance();
+        mStorageRef  = mStorage.getReferenceFromUrl("gs://nao-app-bc1b6.appspot.com");
+        mAllUserStorageRef = mStorageRef.child("users");
+        mUserStorageRef = mStorageRef.child("users").child(mUser.getDisplayName());
     }
 
     @Override
@@ -91,7 +99,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
+        populateImage("dleric");
         return view;
     }
 
@@ -126,7 +134,7 @@ public class ProfileFragment extends Fragment {
                     try {
                         final File file = File.createTempFile("video", "mp4");
                         String videoPath = dataSnapshot.child("videoPath").getValue(String.class);
-                        StorageReference userVideoRef = mStorageRef.child(userName).child("video/" + videoPath);
+                        StorageReference userVideoRef = mAllUserStorageRef.child(userName).child("video/" + videoPath);
                         userVideoRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -160,7 +168,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("imagePath").getValue() != null) {
                     String imagePath = dataSnapshot.child("imagePath").getValue(String.class);
-                    StorageReference userImageRef = mStorageRef.child(userName).child("image/" + imagePath);
+                    StorageReference userImageRef = mAllUserStorageRef.child("users").child(userName).child("image/" + imagePath);
                     Glide.with(getContext()).using(new FirebaseImageLoader()).load(userImageRef).into(imageContent);
                 }
             }
@@ -170,6 +178,8 @@ public class ProfileFragment extends Fragment {
 
             }
         };
+
+        mUsersRef.child(userName).addListenerForSingleValueEvent(userImageListener);
     }
 
     public void uploadText(String text) {
