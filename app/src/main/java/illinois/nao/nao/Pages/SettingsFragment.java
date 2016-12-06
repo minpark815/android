@@ -48,7 +48,7 @@ public class SettingsFragment extends Fragment {
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mAuth.signOut();
-                startActivity(new Intent(view.getContext(), LoginActivity.class));
+                startActivity(intent);
             }
         });
         return view;
