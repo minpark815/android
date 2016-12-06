@@ -27,12 +27,9 @@ public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    // TODO: DELETE USERNAME AND PHONE OPTIONS (HERE AND THE LAYOUT FILE!)
-    // TODO: ADD CONFIRM PASSWORD FIELD
     @BindView(R.id.editText_email) EditText email;
-    @BindView(R.id.editText_username) EditText username;
     @BindView(R.id.editText_password) EditText password;
-    @BindView(R.id.editText_phone) EditText phone;
+    @BindView(R.id.editText_password_confirm) EditText confirmPassword;
     @BindView(R.id.button_signup) Button signUpButton;
     @BindView(R.id.textViewRegUserErrorMessage) TextView errorMessage;
 
@@ -46,22 +43,26 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void signUp(View v) {
-        mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
-                        finish();
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+        if (password.getText().toString().matches(confirmPassword.getText().toString())) {
+            mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                            Log.d(TAG, task.getResult() + "");
+
+                            finish();
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                                Log.d(TAG, task.getResult() + "");
+                            }
                         }
-                    }
-                });
+                    });
+        } else {
+            // TODO: passwords do not match
+        }
     }
 
     public void goToLogin(View v) {

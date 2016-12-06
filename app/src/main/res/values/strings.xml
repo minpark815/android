@@ -8,7 +8,7 @@
     <string name="title_activity_sign_in">Sign-in</string>
     <string name="button_text_sign_in">SIGN IN</string>
     <string name="button_text_sign_out">SIGN OUT</string>
-    <string name="login_username">Username</string>
+    <string name="login_email">Email</string>
     <string name="login_password">Password</string>
     <string name="sign_in_new_account">Wanna try Nao? <b>Sign Up Now.</b></string>
     <string name="sign_in_forgot_password">Forgot Your Password?</string>

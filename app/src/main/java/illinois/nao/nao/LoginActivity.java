@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @BindView(R.id.login_textview_createnewaccount) TextView createNewAccount;
-    @BindView(R.id.login_edittext_username) EditText usernameEditText;
+    @BindView(R.id.login_edittext_email) EditText usernameEditText;
     @BindView(R.id.login_edittext_password) EditText passwordEditText;
 
     private String username;
