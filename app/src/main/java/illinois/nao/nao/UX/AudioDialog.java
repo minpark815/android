@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import illinois.nao.nao.R;
 import illinois.nao.nao.Storage.StorageHelper;
+import illinois.nao.nao.User.PostEvent;
 
 /**
  * Created by harryarakkal on 12/6/16.
@@ -27,10 +28,12 @@ public class AudioDialog extends Dialog implements View.OnClickListener {
     private boolean recording = false;
     private StorageReference storage;
     private File image;
+    private String userName;
 
-    public AudioDialog(Context context, StorageReference storage) {
+    public AudioDialog(Context context, StorageReference storage, String userName) {
         super(context);
         this.storage = storage;
+        this.userName = userName;
     }
 
     @Override
@@ -83,6 +86,8 @@ public class AudioDialog extends Dialog implements View.OnClickListener {
                 }
                 recording = false;
                 System.out.println("Done Recording");
+                StorageHelper.uploadFile(Uri.fromFile(image), storage.child("audio"));
+                StorageHelper.pushToFeed(userName, PostEvent.Type.AUDIO);
                 this.dismiss();
             }
         } else {
