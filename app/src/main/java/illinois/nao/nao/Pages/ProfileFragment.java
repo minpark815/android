@@ -70,6 +70,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final int REQUEST_RECORD_VIDEO = 1002;
     private static final int PICK_IMAGE_FILE = 1003;
     private static final int PICK_VIDEO_FILE = 1004;
+    private static final int CHANGE_PROFILE = 1005;
 
     @BindView(R.id.profile_videoplayer) ExposureVideoPlayer videoPlayer;
     @BindView(R.id.profile_button_audio) ImageButton buttonAudio;
@@ -126,6 +127,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         populateImage();
         populateVideo();
         populateAudio();
+
+        ImageView profile = (ImageView) view.findViewById(R.id.imageView);
+        profile.setOnClickListener(this);
 
         FloatingActionButton photo = (FloatingActionButton) view.findViewById(R.id.add_photo);
         FloatingActionButton video = (FloatingActionButton) view.findViewById(R.id.record_video);
@@ -300,6 +304,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         StorageHelper.pushToFeed(mUser.getDisplayName(), PostEvent.Type.AUDIO);
     }
 
+    public void changeProfile(Uri file){
+        StorageReference userProfileRef = mUserStorageRef.child("profile");
+        StorageHelper.uploadFile(file, userProfileRef, null, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                populateProfilePicture();
+            }
+        });
+    }
+
     @Override
     public void onClick(final View view) {
         final int button = view.getId();
@@ -354,6 +368,30 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }else if(button == R.id.write_post){
             PostDialog dialog = new PostDialog(view.getContext(), mUser.getDisplayName());
             dialog.show();
+        }else if(button == R.id.imageView){
+            final CharSequence[] choices = options;
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view.getContext());
+            builder.setTitle("Add Photo");
+            builder.setItems(choices, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (i == 0) {
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        // Ensure that there's a camera activity to handle the intent
+                        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                        }
+                    } else if(i==1){
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Profile Picture"), CHANGE_PROFILE);
+                    }else{
+                        dialogInterface.dismiss();
+                    }
+                }
+            });
+            builder.show();
         }
 
     }
@@ -381,6 +419,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case PICK_VIDEO_FILE:
                 if (resultCode == RESULT_OK) {
                     uploadVideo(data.getData());
+                }
+            case CHANGE_PROFILE:
+                if (resultCode == RESULT_OK){
+                    changeProfile(data.getData());
                 }
             default:
                 break;

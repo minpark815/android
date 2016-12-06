@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.google.firebase.storage.StorageReference;
 
-import illinois.nao.nao.Pages.NewsfeedFragment;
 import illinois.nao.nao.R;
 import illinois.nao.nao.Storage.StorageHelper;
 import illinois.nao.nao.User.PostEvent;

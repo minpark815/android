@@ -9,7 +9,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import illinois.nao.nao.Pages.NewsfeedFragment;
 import illinois.nao.nao.R;
 import illinois.nao.nao.User.PostEvent;
 
