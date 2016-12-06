@@ -66,7 +66,7 @@ public class SignupActivity extends AppCompatActivity {
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                             User newUser = new User(firebaseUser, nameString, userNameString);
 
-                            mUsersRef.child(firebaseUser.getUid()).setValue(newUser);
+                            mUsersRef.child(userNameString).setValue(newUser);
                             finish();
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the

@@ -16,21 +16,21 @@ public class User {
 
     private static final String TAG = "User";
 
-    private String uid;
     private String displayName;
     private String userName;
     private String profileDescription;
     private String email;
+    private String uid;
 
     public User() {
 
     }
 
     public User(FirebaseUser firebaseUser, String displayName, String userName) {
-        this.uid = firebaseUser.getUid();
         this.displayName = displayName;
         this.userName = userName;
         this.email = firebaseUser.getEmail();
+        this.uid = firebaseUser.getUid();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(displayName).build();
@@ -45,13 +45,13 @@ public class User {
                 });
     }
 
-    public String getUid() {
-        return uid;
-    }
+    public String getUid() { return uid; }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
+    public void setUid(String uid) { this.uid = uid; }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
 
     public String getDisplayName() {
         return displayName;
