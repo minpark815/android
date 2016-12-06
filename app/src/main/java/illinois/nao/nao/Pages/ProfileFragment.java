@@ -57,6 +57,8 @@ import illinois.nao.nao.UX.PostDialog;
 import illinois.nao.nao.User.User;
 import nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "ProfileFragment";
@@ -99,7 +101,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-
 
         // videoPlayer.setVideoSource(Uri.parse("android.resource://illinois.nao.nao/" + R.raw.naovideo));
         name.setText(mUser.getDisplayName());
@@ -171,18 +172,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     public void populateImage() {
-        StorageReference imageReference = mUserStorageRef.child("image.png");
+        StorageReference imageReference = mUserStorageRef.child("image");
         StorageHelper.populateImage(imageReference, imageContent);
     }
 
     public void populateVideo() {
         try {
             final File file = File.createTempFile("video", "mp4");
-            StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("video.mp4");
+            StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("video");
             userVideoRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     // Local temp file has been created
+                    videoPlayer = (ExposureVideoPlayer) getActivity().findViewById(R.id.profile_videoplayer);
                     videoPlayer.setVideoSource(Uri.fromFile(file));
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -200,7 +202,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void populateAudio() {
         try {
             final File file = File.createTempFile("audio", "mp3");
-            StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("audio.mp3");
+            StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("audio");
             userVideoRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -222,7 +224,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     public void populateProfilePicture() {
-        StorageReference profilePicReference = mUserStorageRef.child("profile.png");
+        StorageReference profilePicReference = mUserStorageRef.child("profile");
         StorageHelper.populateImage(profilePicReference, profilePicture);
     }
 
@@ -236,21 +238,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
      * @param file Uri file
      */
     public void uploadVideo(Uri file) {
-        StorageReference userVideoRef = mUserStorageRef.child("video/" + file.getLastPathSegment());
+        StorageReference userVideoRef = mUserStorageRef.child("video");
         StorageHelper.uploadFile(file, userVideoRef);
-        mUsersRef.child(mUser.getDisplayName()).child("videoPath").setValue(file.getLastPathSegment());
     }
 
     public void uploadImage(Uri file) {
-        StorageReference userPhotoRef = mUserStorageRef.child("image/" + file.getLastPathSegment());
+        StorageReference userPhotoRef = mUserStorageRef.child("image");
         StorageHelper.uploadFile(file, userPhotoRef);
-        mUsersRef.child(mUser.getDisplayName()).child("imagePath").setValue(file.getLastPathSegment());
     }
 
     public void uploadSound(Uri file) {
-        StorageReference userSoundRef = mUserStorageRef.child("sound/" + file.getLastPathSegment());
+        StorageReference userSoundRef = mUserStorageRef.child("sound");
         StorageHelper.uploadFile(file, userSoundRef);
-        mUsersRef.child(mUser.getDisplayName()).child("soundPath").setValue(file.getLastPathSegment());
     }
 
     @Override
@@ -328,5 +327,24 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 storageDir
         );
         return image;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case REQUEST_TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    uploadImage(data.getData());
+                    populateImage();
+                }
+                break;
+            case REQUEST_RECORD_VIDEO:
+                if (resultCode == RESULT_OK) {
+                    uploadVideo(data.getData());
+                }
+            default:
+                break;
+        }
     }
 }

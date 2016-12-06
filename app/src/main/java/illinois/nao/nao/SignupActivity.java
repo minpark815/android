@@ -80,19 +80,19 @@ public class SignupActivity extends AppCompatActivity {
                             mUsersRef.child(userNameString).setValue(newUser);
                             StorageReference userReference = mStorageRef.child("users").child(userNameString);
 
-                            StorageReference profilePicRef = userReference.child("profile.png");
+                            StorageReference profilePicRef = userReference.child("profile");
                             Uri profilePicUri = Uri.parse("android.resource://"+getPackageName()+"/" + R.drawable.profile);
                             StorageHelper.uploadFile(profilePicUri, profilePicRef);
 
-                            StorageReference imageRef = userReference.child("image.png");
+                            StorageReference imageRef = userReference.child("image");
                             Uri imageUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.image);
                             StorageHelper.uploadFile(imageUri, imageRef);
 
-                            StorageReference audioRef = userReference.child("audio.mp3");
+                            StorageReference audioRef = userReference.child("audio");
                             Uri audioUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.ifelephantscouldfly);
                             StorageHelper.uploadFile(audioUri, audioRef);
 
-                            StorageReference videoRef = userReference.child("video.mp4");
+                            StorageReference videoRef = userReference.child("video");
                             Uri videoUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.naovideo);
                             StorageHelper.uploadFile(videoUri, videoRef);
 
