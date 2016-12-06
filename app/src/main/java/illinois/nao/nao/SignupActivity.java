@@ -28,6 +28,7 @@ public class SignupActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     // TODO: DELETE USERNAME AND PHONE OPTIONS (HERE AND THE LAYOUT FILE!)
+    // TODO: ADD CONFIRM PASSWORD FIELD
     @BindView(R.id.editText_email) EditText email;
     @BindView(R.id.editText_username) EditText username;
     @BindView(R.id.editText_password) EditText password;
