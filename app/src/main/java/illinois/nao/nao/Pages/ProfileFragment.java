@@ -305,6 +305,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             dialog.setTitle("Record Audio");
             dialog.show();
         }else if(button == R.id.write_post){
+            PostDialog dialog = new PostDialog(view.getContext(), mUsersRef.child(mUser.getDisplayName()));
             dialog.show();
         }
 
