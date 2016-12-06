@@ -47,7 +47,6 @@ public class StorageHelper {
     }
 
     public static void pushToFeed(String userName, PostEvent.Type type) {
-        FirebaseDatabase.getInstance().getReference("users").push().setValue(new PostEvent(userName, type));
-        Log.d("PUSH", "push to newsfeed");
+        FirebaseDatabase.getInstance().getReference("newsfeed").push().setValue(new PostEvent(userName, type));
     }
 }

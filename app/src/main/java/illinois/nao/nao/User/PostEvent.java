@@ -11,6 +11,15 @@ public class PostEvent {
     }
 
     private String author;
+
+    public Type getType() {
+        return type;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
     private Type type;
 
     public PostEvent() {
@@ -18,14 +27,8 @@ public class PostEvent {
     }
 
     public PostEvent(String author, Type type) {
-
+        this.author = author;
+        this.type = type;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public Type getType() {
-        return type;
-    }
 }
