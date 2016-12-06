@@ -73,6 +73,7 @@ public class SignupActivity extends AppCompatActivity {
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
                                 Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                                //TODO: getResult throws errors. Will throw error if password is < 6 characters
                                 Log.d(TAG, task.getResult() + "");
                             }
                         }
