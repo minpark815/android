@@ -218,22 +218,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mUsersRef.child(mUser.getDisplayName()).child("soundPath").setValue(file.getLastPathSegment());
     }
 
-
-
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-            }
-        });
-    }
-
     @Override
     public void onClick(View view) {
         int button = view.getId();
