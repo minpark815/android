@@ -307,7 +307,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         }
                     }else if(i == 1){
                         Intent intent = new Intent();
-                        intent.setType("image/*");
+                        if (button == R.id.add_photo) {
+                            intent.setType("image/*");
+                        } else {
+                            intent.setType("video/*");
+                        }
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_MEDIA_FILE);
                         System.out.println("Pick from Gallery");
@@ -343,6 +347,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case REQUEST_RECORD_VIDEO:
                 if (resultCode == RESULT_OK) {
                     uploadVideo(data.getData());
+                }
+                break;
+            case PICK_MEDIA_FILE:
+                if (resultCode == RESULT_OK) {
+                    if (data.getType().equals("image/*")) {
+                        uploadImage(data.getData());
+                    } else {
+                        uploadVideo(data.getData());
+                    }
                 }
             default:
                 break;
