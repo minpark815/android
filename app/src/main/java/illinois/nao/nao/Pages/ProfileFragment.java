@@ -235,7 +235,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 }
                 // Continue only if the File was successfully created
                 if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(getContext(),
+                    Uri photoURI = FileProvider.getUriForFile(view.getContext(),
                             "illinois.nao.nao.fileprovider",
                             photoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
