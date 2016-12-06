@@ -86,13 +86,13 @@ public class AudioDialog extends Dialog implements View.OnClickListener {
                 }
                 recording = false;
                 System.out.println("Done Recording");
-                StorageHelper.uploadFile(Uri.fromFile(image), storage.child("audio"));
+                StorageHelper.uploadFile(Uri.fromFile(image), storage.child("audio"), null, null);
                 StorageHelper.pushToFeed(userName, PostEvent.Type.AUDIO);
                 this.dismiss();
             }
         } else {
             System.out.println("Cancel");
-            StorageHelper.uploadFile(Uri.fromFile(image), storage.child("audio"));
+            StorageHelper.uploadFile(Uri.fromFile(image), storage.child("audio"), null, null); //TODO: SHOULD THIS BE HERE?
             this.dismiss();
         }
     }

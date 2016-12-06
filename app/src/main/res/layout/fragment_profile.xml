@@ -130,8 +130,7 @@
                     android:id="@+id/imageView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    android:src="@drawable/rick" />
+                    android:layout_marginBottom="32dp" />
 
                 <nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer
                     android:id="@+id/profile_videoplayer"
