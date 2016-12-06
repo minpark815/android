@@ -11,9 +11,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import illinois.nao.nao.User.PostEvent;
 
 /**
  * Created by franklinye on 12/6/16.
@@ -40,5 +43,9 @@ public class StorageHelper {
     public static void populateImage(final StorageReference imageReference, final ImageView imageView) {
         Glide.with(imageView.getContext()).using(new FirebaseImageLoader()).load(imageReference)
                 .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
+    }
+
+    public static void pushToFeed(String userName, PostEvent.Type type) {
+        FirebaseDatabase.getInstance().getReference("newsfeed").push().setValue(new PostEvent(userName, type));
     }
 }

@@ -54,6 +54,7 @@ import illinois.nao.nao.R;
 import illinois.nao.nao.Storage.StorageHelper;
 import illinois.nao.nao.UX.AudioDialog;
 import illinois.nao.nao.UX.PostDialog;
+import illinois.nao.nao.User.PostEvent;
 import illinois.nao.nao.User.User;
 import nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer;
 
@@ -188,6 +189,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     // Local temp file has been created
+
                     videoPlayer.setVideoSource(Uri.fromFile(videoFile));
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -196,7 +198,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     // Handle any errors
                 }
             });
-            videoPlayer.setVideoSource(Uri.fromFile(videoFile));
+
         } catch (IOException e) {
             Log.d(TAG, "exception downloading files");
         }
@@ -211,7 +213,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     // Local temp file has been created
 
-                    mp = MediaPlayer.create(getActivity().getApplicationContext(), Uri.fromFile(audioFile));
+                    mp = MediaPlayer.create(getContext(), Uri.fromFile(file));
                     Log.d(TAG, "media player created");
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -233,6 +235,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void uploadText(String text) {
         DatabaseReference textRef = mUsersRef.child(mUser.getDisplayName());
         textRef.setValue(text);
+        StorageHelper.pushToFeed(mUser.getDisplayName(), PostEvent.Type.TEXT);
     }
 
     /**
@@ -242,16 +245,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void uploadVideo(Uri file) {
         StorageReference userVideoRef = mUserStorageRef.child("video");
         StorageHelper.uploadFile(file, userVideoRef);
+        StorageHelper.pushToFeed(mUser.getDisplayName(), PostEvent.Type.VIDEO);
     }
 
     public void uploadImage(Uri file) {
         StorageReference userPhotoRef = mUserStorageRef.child("image");
         StorageHelper.uploadFile(file, userPhotoRef);
+        StorageHelper.pushToFeed(mUser.getDisplayName(), PostEvent.Type.IMAGE);
     }
 
     public void uploadSound(Uri file) {
         StorageReference userSoundRef = mUserStorageRef.child("sound");
         StorageHelper.uploadFile(file, userSoundRef);
+        StorageHelper.pushToFeed(mUser.getDisplayName(), PostEvent.Type.AUDIO);
     }
 
     @Override
@@ -294,7 +300,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             builder.show();
         }else if(button == R.id.record_audio){
             System.out.println("record");
-            AudioDialog dialog = new AudioDialog(view.getContext(), mUserStorageRef);
+            AudioDialog dialog = new AudioDialog(view.getContext(), mUserStorageRef, mUser.getDisplayName());
             dialog.setContentView(R.layout.audio_dialog);
             dialog.setTitle("Record Audio");
             dialog.show();
