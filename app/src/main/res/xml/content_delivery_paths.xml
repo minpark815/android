@@ -1,3 +1,4 @@
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <files-path name="." path="/"/>
+    <external-path name="my_images" path="Android/data/illinois.nao.nao/files/Pictures" />
 </paths>
