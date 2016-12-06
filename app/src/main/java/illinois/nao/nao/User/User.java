@@ -21,6 +21,9 @@ public class User {
     private String profileDescription;
     private String email;
     private String uid;
+    private String imagePath;
+    private String videoPath;
+    private String soundPath;
 
     public User() {
 
@@ -33,7 +36,7 @@ public class User {
         this.uid = firebaseUser.getUid();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(displayName).build();
+                .setDisplayName(userName).build();
         firebaseUser.updateProfile(profileUpdates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -75,5 +78,29 @@ public class User {
 
     public void setProfileDescription(String profileDescription) {
         this.profileDescription = profileDescription;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
+    }
+
+    public String getSoundPath() {
+        return soundPath;
+    }
+
+    public void setSoundPath(String soundPath) {
+        this.soundPath = soundPath;
     }
 }
