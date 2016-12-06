@@ -30,7 +30,15 @@
 
         <activity android:name=".SignupActivity">
         </activity>
-
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="@string/content_file_provider_authority"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/content_delivery_paths" />
+        </provider>
 
         <!-- END - APP CONTENT DELIVERY AND USER DATA STORAGE -->
     </application>

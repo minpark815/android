@@ -54,6 +54,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "ProfileFragment";
     private static final int REQUEST_TAKE_PHOTO = 1001;
     private static final int REQUEST_RECORD_VIDEO = 1002;
+    private static final int PICK_MEDIA_FILE = 1003;
 
     @BindView(R.id.profile_videoplayer) ExposureVideoPlayer videoPlayer;
     @BindView(R.id.profile_button_audio) ImageButton buttonAudio;
@@ -216,22 +217,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         StorageReference userSoundRef = mUserStorageRef.child("sound/" + file.getLastPathSegment());
         StorageHelper.uploadFile(file, userSoundRef);
         mUsersRef.child(mUser.getDisplayName()).child("soundPath").setValue(file.getLastPathSegment());
-    }
-
-
-
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-            }
-        });
     }
 
     @Override
