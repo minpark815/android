@@ -17,21 +17,29 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import illinois.nao.nao.User.User;
 
 public class SignupActivity extends AppCompatActivity {
 
     private static final String TAG = "Signup";
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mUsersRef = mDatabase.getReference("users");
 
     @BindView(R.id.editText_email) EditText email;
     @BindView(R.id.editText_password) EditText password;
     @BindView(R.id.editText_password_confirm) EditText confirmPassword;
     @BindView(R.id.button_signup) Button signUpButton;
     @BindView(R.id.textViewRegUserErrorMessage) TextView errorMessage;
+    @BindView(R.id.editText_username) EditText userName;
+    @BindView(R.id.editText_name) EditText displayName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +51,22 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void signUp(View v) {
-        if (password.getText().toString().matches(confirmPassword.getText().toString())) {
+
+        if (password.getText().toString().equals(confirmPassword.getText().toString())) {
+            Log.d(TAG, "suh dude");
             mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
+                            String nameString = displayName.getText().toString();
+                            String userNameString = userName.getText().toString();
+
+                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            User newUser = new User(firebaseUser, nameString, userNameString);
+
+                            mUsersRef.child(firebaseUser.getUid()).setValue(newUser);
                             finish();
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
