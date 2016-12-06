@@ -23,8 +23,9 @@
             android:layout_marginTop="16dp"
             android:scaleType="fitXY"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+            app:layout_constraintTop_toTopOf="parent" />
+            <!---->
+            <!--app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />-->
 
         <TextView
             android:id="@+id/textView_name"
