@@ -41,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         // ********* SET UP BOTTOM NAVIGATION ********
         // Create items
         AHBottomNavigationItem newsfeed = new AHBottomNavigationItem(R.string.newsfeed,
-                R.drawable.ic_menu_gallery, R.color.cardview_light_background);
+                R.drawable.ic_event_note_black_24dp, R.color.cardview_light_background);
 
         AHBottomNavigationItem profile = new AHBottomNavigationItem(R.string.profile,
-                R.drawable.ic_menu_send, R.color.cardview_light_background);
+                R.drawable.ic_person_black_24dp, R.color.cardview_light_background);
 
         AHBottomNavigationItem search = new AHBottomNavigationItem(R.string.search,
-                R.drawable.ic_menu_slideshow, R.color.cardview_light_background);
+                R.drawable.ic_search_black_24dp, R.color.cardview_light_background);
 
         bottomNavigation.addItem(search);
         bottomNavigation.addItem(profile);
