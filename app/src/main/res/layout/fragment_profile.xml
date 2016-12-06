@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="illinois.nao.nao.Pages.ProfileFragment">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -145,7 +145,7 @@
 
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <com.github.clans.fab.FloatingActionMenu
         android:layout_width="66dp"
@@ -154,6 +154,7 @@
         fab:menu_icon="@drawable/ic_add_white_24dp"
         android:id="@+id/floatingActionMenu"
         tools:layout_editor_absoluteY="308dp"
+        app:layout_behavior="illinois.nao.nao.UX.ScrollFAMBehaviour"
         tools:layout_editor_absoluteX="302dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -190,4 +191,4 @@
             android:src="@drawable/ic_camera_alt_white_18dp"
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
