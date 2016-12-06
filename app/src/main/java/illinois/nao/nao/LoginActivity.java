@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-
         password = passwordEditText.getText().toString();
 
         if (password == null || password.isEmpty()) {
