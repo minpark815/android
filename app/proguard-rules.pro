@@ -15,3 +15,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+#Google calls log way too many times https://github.com/firebase/FirebaseUI-Android/tree/master/storage#known-issues
+#Remove this in production version
+-assumenosideeffects class android.util.Log {
+    public static int w(...);
+    public static int d(...);
+    public static int v(...);
+}
