@@ -60,6 +60,7 @@ public class NewsfeedFragment extends Fragment {
         postsView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setReverseLayout(true);
+        llm.setStackFromEnd(true);
         postsView.setLayoutManager(llm);
 
         return rootView;
