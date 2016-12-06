@@ -9,32 +9,34 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import illinois.nao.nao.Pages.NewsfeedFragment;
 import illinois.nao.nao.Pages.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FragmentManager fragmentManager;
+    @BindView(R.id.bottom_navigation) AHBottomNavigation bottomNavigation;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    AHBottomNavigation bottomNavigation;
-    Toolbar toolbar;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         // toolbar_content.setNavigationIcon(R.drawable.icon);
+        toolbar.setTitle("Nao");
 
         setSupportActionBar(toolbar);
 
@@ -83,6 +85,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Our starting page
         goToProfile();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_menu, menu);
+        return true;
     }
 
     private void goToSearch() {
