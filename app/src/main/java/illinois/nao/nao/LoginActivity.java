@@ -30,12 +30,10 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    @BindView(R.id.login_textview_createnewaccount)
-    TextView createNewAccount;
-    @BindView(R.id.login_edittext_email)
-    EditText usernameEditText;
-    @BindView(R.id.login_edittext_password)
-    EditText passwordEditText;
+    @BindView(R.id.login_textview_createnewaccount) TextView createNewAccount;
+    @BindView(R.id.login_edittext_email) EditText usernameEditText;
+    @BindView(R.id.login_edittext_password) EditText passwordEditText;
+    @BindView(R.id.login_error) TextView errorText;
 
     private String username;
     private String password;
@@ -54,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    goToMainActivity();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -109,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         else {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
+                            errorText.setText("E-mail or password incorrect.");
                         }
 
                         // ...

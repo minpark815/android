@@ -46,6 +46,12 @@
             app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/login_linearlayout">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/login_error"
+                android:gravity="center" />
+
             <EditText
                 android:id="@+id/login_edittext_email"
                 android:layout_width="fill_parent"
