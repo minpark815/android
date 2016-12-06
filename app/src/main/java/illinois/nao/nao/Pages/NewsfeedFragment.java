@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import illinois.nao.nao.R;
 import illinois.nao.nao.Storage.StorageHelper;
 import illinois.nao.nao.User.PostEvent;
@@ -69,7 +70,8 @@ public class NewsfeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_newsfeed, container, false);
-        postsView = (RecyclerView) rootView.findViewById(R.id.recyclerView_posts);
+        ButterKnife.bind(this, rootView);
+
         postsView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setReverseLayout(true);
