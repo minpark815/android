@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,6 +38,7 @@ public class StorageHelper {
     }
 
     public static void populateImage(final StorageReference imageReference, final ImageView imageView) {
-        Glide.with(imageView.getContext()).using(new FirebaseImageLoader()).load(imageReference).into(imageView);
+        Glide.with(imageView.getContext()).using(new FirebaseImageLoader()).load(imageReference)
+                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
     }
 }
