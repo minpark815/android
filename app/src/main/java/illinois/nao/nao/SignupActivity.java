@@ -27,6 +27,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    // TODO: DELETE USERNAME AND PHONE OPTIONS (HERE AND THE LAYOUT FILE!)
     @BindView(R.id.editText_email) EditText email;
     @BindView(R.id.editText_username) EditText username;
     @BindView(R.id.editText_password) EditText password;
@@ -50,6 +51,7 @@ public class SignupActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
+                        finish();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
