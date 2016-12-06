@@ -21,9 +21,6 @@ public class User {
     private String profileDescription;
     private String email;
     private String uid;
-    private String imagePath;
-    private String videoPath;
-    private String soundPath;
 
     public User() {
 
@@ -34,6 +31,7 @@ public class User {
         this.userName = userName;
         this.email = firebaseUser.getEmail();
         this.uid = firebaseUser.getUid();
+        this.profileDescription = "I'm Nao a user and I'm really lame!";
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(userName).build();
@@ -78,29 +76,5 @@ public class User {
 
     public void setProfileDescription(String profileDescription) {
         this.profileDescription = profileDescription;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    public String getVideoPath() {
-        return videoPath;
-    }
-
-    public void setVideoPath(String videoPath) {
-        this.videoPath = videoPath;
-    }
-
-    public String getSoundPath() {
-        return soundPath;
-    }
-
-    public void setSoundPath(String soundPath) {
-        this.soundPath = soundPath;
     }
 }

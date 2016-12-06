@@ -3,6 +3,7 @@ package illinois.nao.nao;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,9 +21,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import illinois.nao.nao.Pages.ProfileFragment;
+import illinois.nao.nao.Storage.StorageHelper;
 import illinois.nao.nao.User.User;
 
 public class SignupActivity extends AppCompatActivity {
@@ -30,8 +35,10 @@ public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "Signup";
 
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mUsersRef = mDatabase.getReference("users");
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mUsersRef;
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageRef;
 
     @BindView(R.id.editText_email) EditText email;
     @BindView(R.id.editText_password) EditText password;
@@ -48,6 +55,10 @@ public class SignupActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        mUsersRef = mDatabase.getReference("users");
+        mStorage = FirebaseStorage.getInstance();
+        mStorageRef = mStorage.getReferenceFromUrl("gs://nao-app-bc1b6.appspot.com");
     }
 
     public void signUp(View v) {
@@ -67,6 +78,11 @@ public class SignupActivity extends AppCompatActivity {
                             User newUser = new User(firebaseUser, nameString, userNameString);
 
                             mUsersRef.child(userNameString).setValue(newUser);
+
+                            StorageReference profilePicRef = mStorageRef.child("users").child(userNameString).child("profile.png");
+                            Uri profilePicUri = Uri.parse("android.resource://"+getPackageName()+"/" + R.drawable.profile);
+                            StorageHelper.uploadFile(profilePicUri, profilePicRef);
+
                             finish();
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the

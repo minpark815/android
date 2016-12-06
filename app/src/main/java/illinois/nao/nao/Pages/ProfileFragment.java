@@ -37,6 +37,7 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import illinois.nao.nao.R;
+import illinois.nao.nao.Storage.StorageHelper;
 import illinois.nao.nao.User.User;
 import nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer;
 
@@ -48,7 +49,9 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.profile_button_audio) ImageButton buttonAudio;
     @BindView(R.id.scrollView_profile) ScrollView scrollView;
     @BindView(R.id.textView_textContent) TextView textContent;
+    @BindView(R.id.textView_name) TextView name;
     @BindView(R.id.imageView2) ImageView imageContent;
+    @BindView(R.id.imageView) ImageView profilePicture;
 
     private MediaPlayer mp;
     private FirebaseUser mUser;
@@ -99,11 +102,15 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        populateImage("dleric");
+        name.setText(mUser.getDisplayName());
+        populateProfilePicture();
+        populateText();
+
+
         return view;
     }
 
-    public void populateText(String userName) {
+    public void populateText() {
         ValueEventListener userTextListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -119,7 +126,7 @@ public class ProfileFragment extends Fragment {
             }
         };
 
-        mUsersRef.child(userName).addListenerForSingleValueEvent(userTextListener);
+        mUsersRef.child(mUser.getDisplayName()).addListenerForSingleValueEvent(userTextListener);
     }
 
     public void populateVideo(File file) {
@@ -162,24 +169,9 @@ public class ProfileFragment extends Fragment {
         mUsersRef.child(userName).child(userName).addListenerForSingleValueEvent(userVideoListener);
     }
 
-    public void populateImage(final String userName) {
-        ValueEventListener userImageListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("imagePath").getValue() != null) {
-                    String imagePath = dataSnapshot.child("imagePath").getValue(String.class);
-                    StorageReference userImageRef = mAllUserStorageRef.child("users").child(userName).child("image/" + imagePath);
-                    Glide.with(getContext()).using(new FirebaseImageLoader()).load(userImageRef).into(imageContent);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        mUsersRef.child(userName).addListenerForSingleValueEvent(userImageListener);
+    public void populateProfilePicture() {
+        StorageReference profilePicReference = mUserStorageRef.child("profile.png");
+        StorageHelper.populateImage(profilePicReference, profilePicture);
     }
 
     public void uploadText(String text) {
@@ -193,36 +185,21 @@ public class ProfileFragment extends Fragment {
      */
     public void uploadVideo(Uri file) {
         StorageReference userVideoRef = mUserStorageRef.child("video/" + file.getLastPathSegment());
-        uploadFile(file, userVideoRef);
+        StorageHelper.uploadFile(file, userVideoRef);
         mUsersRef.child(mUser.getDisplayName()).child("videoPath").setValue(file.getLastPathSegment());
     }
 
     public void uploadImage(Uri file) {
         StorageReference userPhotoRef = mUserStorageRef.child("image/" + file.getLastPathSegment());
-        uploadFile(file, userPhotoRef);
+        StorageHelper.uploadFile(file, userPhotoRef);
         mUsersRef.child(mUser.getDisplayName()).child("imagePath").setValue(file.getLastPathSegment());
     }
 
     public void uploadSound(Uri file) {
         StorageReference userSoundRef = mUserStorageRef.child("sound/" + file.getLastPathSegment());
-        uploadFile(file, userSoundRef);
+        StorageHelper.uploadFile(file, userSoundRef);
         mUsersRef.child(mUser.getDisplayName()).child("soundPath").setValue(file.getLastPathSegment());
     }
 
-    private void uploadFile(Uri file, StorageReference userVideoRef) {
-        UploadTask uploadTask = userVideoRef.putFile(file);
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-            }
-        });
-    }
 }
