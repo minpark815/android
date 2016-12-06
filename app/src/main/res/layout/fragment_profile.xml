@@ -26,7 +26,8 @@
             android:layout_marginLeft="120dp"
             android:layout_marginEnd="120dp"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="120dp" />
+            android:layout_marginRight="120dp"
+            android:src="@drawable/profile" />
         <!---->
         <!--app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />-->
 
@@ -88,7 +89,7 @@
             android:gravity="center"
             android:src="@drawable/ic_play_arrow_black_24dp"
             app:layout_constraintTop_toBottomOf="@+id/textView_name"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="16dp" />
 
         <TextView
             android:id="@+id/textView_textContent"
