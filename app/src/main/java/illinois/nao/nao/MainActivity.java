@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToProfile() {
+        toolbar.setTitle("Nao");
         fragmentManager.beginTransaction()
                 .replace(R.id.content_holder, new ProfileFragment()).commit();
     }

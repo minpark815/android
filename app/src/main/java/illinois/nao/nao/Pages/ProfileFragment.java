@@ -271,21 +271,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         // Ensure that there's a camera activity to handle the intent
                         if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                            // Create the File where the photo should go
-                            File photoFile = null;
-                            try {
-                                photoFile = createImageFile();
-                            } catch (IOException ex) {
-                                // Error occurred while creating the File
-                            }
-                            // Continue only if the File was successfully created
-                            if (photoFile != null) {
-                                Uri photoURI = FileProvider.getUriForFile(view.getContext(),
-                                        "illinois.nao.nao.fileprovider",
-                                        photoFile);
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                            }
+                            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                         }
                     }else if(i == 0){
                         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -314,19 +300,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             PostDialog dialog = new PostDialog(view.getContext());
         }
 
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = timeStamp + "_";
-        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-        return image;
     }
 
     @Override
