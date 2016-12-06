@@ -67,7 +67,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "ProfileFragment";
     private static final int REQUEST_TAKE_PHOTO = 1001;
     private static final int REQUEST_RECORD_VIDEO = 1002;
-    private static final int PICK_MEDIA_FILE = 1003;
+    private static final int PICK_IMAGE_FILE = 1003;
+    private static final int PICK_VIDEO_FILE = 1004;
 
     @BindView(R.id.profile_videoplayer) ExposureVideoPlayer videoPlayer;
     @BindView(R.id.profile_button_audio) ImageButton buttonAudio;
@@ -205,6 +206,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             });
         } catch (IOException e) {
             Log.d(TAG, "exception downloading files");
+        } catch (IllegalStateException e) {
+            Log.d(TAG, "error setting files");
         }
     }
 
@@ -309,11 +312,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         Intent intent = new Intent();
                         if (button == R.id.add_photo) {
                             intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_FILE);
                         } else {
                             intent.setType("video/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_VIDEO_FILE);
                         }
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_MEDIA_FILE);
+
                         System.out.println("Pick from Gallery");
                     }else if(i == 2){
                         dialogInterface.dismiss();
@@ -349,13 +355,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     uploadVideo(data.getData());
                 }
                 break;
-            case PICK_MEDIA_FILE:
+            case PICK_IMAGE_FILE:
                 if (resultCode == RESULT_OK) {
-                    if (data.getType().equals("image/*")) {
-                        uploadImage(data.getData());
-                    } else {
-                        uploadVideo(data.getData());
-                    }
+                    uploadImage(data.getData());
+                }
+                break;
+            case PICK_VIDEO_FILE:
+                if (resultCode == RESULT_OK) {
+                    uploadVideo(data.getData());
                 }
             default:
                 break;
