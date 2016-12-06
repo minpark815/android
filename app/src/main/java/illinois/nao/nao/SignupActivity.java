@@ -78,10 +78,23 @@ public class SignupActivity extends AppCompatActivity {
                             User newUser = new User(firebaseUser, nameString, userNameString);
 
                             mUsersRef.child(userNameString).setValue(newUser);
+                            StorageReference userReference = mStorageRef.child("users").child(userNameString);
 
-                            StorageReference profilePicRef = mStorageRef.child("users").child(userNameString).child("profile.png");
+                            StorageReference profilePicRef = userReference.child("profile.png");
                             Uri profilePicUri = Uri.parse("android.resource://"+getPackageName()+"/" + R.drawable.profile);
                             StorageHelper.uploadFile(profilePicUri, profilePicRef);
+
+                            StorageReference imageRef = userReference.child("image.png");
+                            Uri imageUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.image);
+                            StorageHelper.uploadFile(imageUri, imageRef);
+
+                            StorageReference audioRef = userReference.child("audio.mp3");
+                            Uri audioUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.ifelephantscouldfly);
+                            StorageHelper.uploadFile(audioUri, audioRef);
+
+                            StorageReference videoRef = userReference.child("video.mp4");
+                            Uri videoUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.naovideo);
+                            StorageHelper.uploadFile(videoUri, videoRef);
 
                             finish();
                             // If sign in fails, display a message to the user. If sign in succeeds
