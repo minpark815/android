@@ -3,6 +3,7 @@ package illinois.nao.nao.Pages;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,8 +53,19 @@ public class SearchFragment extends Fragment {
         mRecyclerViewAdapter = new FirebaseRecyclerAdapter<User, UserHolder>(User.class, R.layout.user_card, UserHolder.class, database.getReference("users")) {
 
             @Override
-            protected void populateViewHolder(UserHolder viewHolder, User user, int position) {
+            protected void populateViewHolder(UserHolder viewHolder, final User user, int position) {
                 viewHolder.bind(user, storageReference);
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                        ProfileFragment fragment = new ProfileFragment();
+                        Bundle args = new Bundle();
+                        args.putString("userName", user.getUserName());
+                        fragment.setArguments(args);
+                        manager.beginTransaction().replace(R.id.content_holder, fragment).commit();
+                    }
+                });
             }
         };
         View view = inflater.inflate(R.layout.fragment_search, container, false);
