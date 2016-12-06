@@ -83,6 +83,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private StorageReference mStorageRef;
     private StorageReference mUserStorageRef;
     private StorageReference mAllUserStorageRef;
+    private File audioFile;
+    private File videoFile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         populateImage();
         populateVideo();
         populateAudio();
+
+        videoPlayer = (ExposureVideoPlayer) view.findViewById(R.id.profile_videoplayer);
 
         FloatingActionButton photo = (FloatingActionButton) view.findViewById(R.id.add_photo);
         FloatingActionButton video = (FloatingActionButton) view.findViewById(R.id.record_video);
@@ -179,13 +183,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     public void populateVideo() {
         try {
-            final File file = File.createTempFile("video", "mp4");
+            videoFile = File.createTempFile("video", "mp4");
             StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("video");
-            userVideoRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            userVideoRef.getFile(videoFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     // Local temp file has been created
-                    videoPlayer.setVideoSource(Uri.fromFile(file));
+
+                    videoPlayer.setVideoSource(Uri.fromFile(videoFile));
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -193,6 +198,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     // Handle any errors
                 }
             });
+
         } catch (IOException e) {
             Log.d(TAG, "exception downloading files");
         }
@@ -200,9 +206,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     public void populateAudio() {
         try {
-            final File file = File.createTempFile("audio", "mp3");
+            audioFile = File.createTempFile("audio", "mp3");
             StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("audio");
-            userVideoRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            userVideoRef.getFile(audioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     // Local temp file has been created
@@ -216,7 +222,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     // Handle any errors
                 }
             });
-            videoPlayer.setVideoSource(Uri.fromFile(file));
         } catch (IOException e) {
             Log.d(TAG, "exception downloading files");
         }
@@ -274,21 +279,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         // Ensure that there's a camera activity to handle the intent
                         if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                            // Create the File where the photo should go
-                            File photoFile = null;
-                            try {
-                                photoFile = createImageFile();
-                            } catch (IOException ex) {
-                                // Error occurred while creating the File
-                            }
-                            // Continue only if the File was successfully created
-                            if (photoFile != null) {
-                                Uri photoURI = FileProvider.getUriForFile(view.getContext(),
-                                        "illinois.nao.nao.fileprovider",
-                                        photoFile);
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                            }
+                            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                         }
                     }else if(i == 0){
                         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -319,19 +310,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = timeStamp + "_";
-        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-        return image;
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -348,6 +326,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 }
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mp != null) {
+            mp.release();
+        }
+        if(videoFile != null) {
+            Log.d(TAG, "Video file deleted: " + videoFile.delete());
+        }
+        if(audioFile != null) {
+            Log.d(TAG, "Audio file deleted: " + audioFile.delete());
         }
     }
 }

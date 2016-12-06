@@ -21,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import illinois.nao.nao.Pages.NewsfeedFragment;
 import illinois.nao.nao.Pages.ProfileFragment;
+import illinois.nao.nao.Pages.SearchFragment;
 import illinois.nao.nao.Pages.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,12 +30,19 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
 
     private FragmentManager fragmentManager;
+    private NewsfeedFragment newsfeedFragment;
+    private ProfileFragment profileFragment;
+    private SearchFragment searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        newsfeedFragment = new NewsfeedFragment();
+        searchFragment = new SearchFragment();
+        profileFragment = new ProfileFragment();
 
         // toolbar_content.setNavigationIcon(R.drawable.icon);
         toolbar.setTitle("Nao");
@@ -110,18 +118,19 @@ public class MainActivity extends AppCompatActivity {
     private void goToSearch() {
         toolbar.setTitle("Search");
         fragmentManager.beginTransaction()
-                .replace(R.id.content_holder, new NewsfeedFragment()).commit();
+                .replace(R.id.content_holder, searchFragment).commit();
     }
 
     private void goToProfile() {
+        toolbar.setTitle("Nao");
         fragmentManager.beginTransaction()
-                .replace(R.id.content_holder, new ProfileFragment()).commit();
+                .replace(R.id.content_holder, profileFragment).commit();
     }
 
     private void goToNewsfeed() {
         toolbar.setTitle("Newsfeed");
         fragmentManager.beginTransaction()
-                .replace(R.id.content_holder, new NewsfeedFragment()).commit();
+                .replace(R.id.content_holder, newsfeedFragment).commit();
     }
 
     @Override
