@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -23,7 +24,6 @@ import illinois.nao.nao.Pages.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.main_toolbar_title) TextView toolbarTitle;
     @BindView(R.id.bottom_navigation) AHBottomNavigation bottomNavigation;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // toolbar_content.setNavigationIcon(R.drawable.icon);
-        toolbarTitle.setText("Nao");
+        toolbar.setTitle("Nao");
+
         setSupportActionBar(toolbar);
 
         // ********* SET UP BOTTOM NAVIGATION ********
@@ -84,6 +85,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Our starting page
         goToProfile();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_menu, menu);
+        return true;
     }
 
     private void goToSearch() {
