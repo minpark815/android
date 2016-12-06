@@ -56,6 +56,7 @@ public class SignupActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
+        mDatabase.setPersistenceEnabled(true);
         mUsersRef = mDatabase.getReference("users");
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReferenceFromUrl("gs://nao-app-bc1b6.appspot.com");
@@ -82,19 +83,19 @@ public class SignupActivity extends AppCompatActivity {
 
                             StorageReference profilePicRef = userReference.child("profile");
                             Uri profilePicUri = Uri.parse("android.resource://"+getPackageName()+"/" + R.drawable.profile);
-                            StorageHelper.uploadFile(profilePicUri, profilePicRef);
+                            StorageHelper.uploadFile(profilePicUri, profilePicRef, null, null);
 
                             StorageReference imageRef = userReference.child("image");
                             Uri imageUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.image);
-                            StorageHelper.uploadFile(imageUri, imageRef);
+                            StorageHelper.uploadFile(imageUri, imageRef, null, null);
 
                             StorageReference audioRef = userReference.child("audio");
                             Uri audioUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.ifelephantscouldfly);
-                            StorageHelper.uploadFile(audioUri, audioRef);
+                            StorageHelper.uploadFile(audioUri, audioRef, null, null);
 
                             StorageReference videoRef = userReference.child("video");
                             Uri videoUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.naovideo);
-                            StorageHelper.uploadFile(videoUri, videoRef);
+                            StorageHelper.uploadFile(videoUri, videoRef, null, null);
 
                             finish();
                             // If sign in fails, display a message to the user. If sign in succeeds

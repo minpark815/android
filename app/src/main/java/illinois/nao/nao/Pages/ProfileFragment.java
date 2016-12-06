@@ -248,19 +248,34 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
      */
     public void uploadVideo(Uri file) {
         StorageReference userVideoRef = mUserStorageRef.child("video");
-        StorageHelper.uploadFile(file, userVideoRef);
+        StorageHelper.uploadFile(file, userVideoRef,null, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                populateVideo();
+            }
+        });
         StorageHelper.pushToFeed(mUser.getDisplayName(), PostEvent.Type.VIDEO);
     }
 
     public void uploadImage(Uri file) {
         StorageReference userPhotoRef = mUserStorageRef.child("image");
-        StorageHelper.uploadFile(file, userPhotoRef);
+        StorageHelper.uploadFile(file, userPhotoRef, null, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                populateImage();
+            }
+        });
         StorageHelper.pushToFeed(mUser.getDisplayName(), PostEvent.Type.IMAGE);
     }
 
     public void uploadSound(Uri file) {
         StorageReference userSoundRef = mUserStorageRef.child("sound");
-        StorageHelper.uploadFile(file, userSoundRef);
+        StorageHelper.uploadFile(file, userSoundRef,null, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                populateAudio();
+            }
+        });
         StorageHelper.pushToFeed(mUser.getDisplayName(), PostEvent.Type.AUDIO);
     }
 

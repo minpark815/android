@@ -24,21 +24,20 @@ import illinois.nao.nao.User.PostEvent;
  */
 
 public class StorageHelper {
-    public static void uploadFile(Uri file, StorageReference userVideoRef) {
-        UploadTask uploadTask = userVideoRef.putFile(file);
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-            }
-        });
+    class Test extends FirebaseImageLoader {
+
+    }
+
+    public static void uploadFile(Uri file, StorageReference userVideoRef, OnFailureListener fail, OnSuccessListener success) {
+        UploadTask uploadTask = userVideoRef.putFile(file);
+        if(fail != null) {
+            uploadTask.addOnFailureListener(fail);
+        }
+        if(success != null) {
+            uploadTask.addOnSuccessListener(success);
+        }
+
     }
 
     public static void populateImage(final StorageReference imageReference, final ImageView imageView) {
