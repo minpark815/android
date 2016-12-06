@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null && user.getDisplayName() != null) {
+                if (user != null && user.getDisplayName() != null && user.isEmailVerified()) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     goToMainActivity();
@@ -77,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void logIn(View v) {
         Log.i("Sign-in", "Attempting to log in...");
-
         username = usernameEditText.getText().toString().trim();
 
         if (username == null || username.isEmpty()) {
@@ -99,7 +99,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
-                        if (task.isSuccessful()) {
+                        if(!mAuth.getCurrentUser().isEmailVerified()){
+                            Toast.makeText(LoginActivity.this, "User is not verified yet", Toast.LENGTH_LONG).show();
+                        } else if (task.isSuccessful()) {
                             goToMainActivity();
                         }
 
@@ -109,6 +111,8 @@ public class LoginActivity extends AppCompatActivity {
                         else {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             errorText.setText("E-mail or password incorrect.");
+                            Toast.makeText(LoginActivity.this, "E-mail or password incorrect", Toast.LENGTH_LONG).show();
+
                         }
 
                         // ...

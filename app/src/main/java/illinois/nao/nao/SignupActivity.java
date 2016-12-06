@@ -67,7 +67,7 @@ public class SignupActivity extends AppCompatActivity {
         if (password.getText().toString().equals(confirmPassword.getText().toString())) {
             Log.d(TAG, "suh dude");
             mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
@@ -106,8 +106,11 @@ public class SignupActivity extends AppCompatActivity {
                                 //TODO: getResult throws errors. Will throw error if password is < 6 characters
                                 Log.d(TAG, task.getResult() + "");
                             }
+                            mAuth.getCurrentUser().sendEmailVerification();
                         }
+
                     });
+            Toast.makeText(SignupActivity.this, "Verification email sent!", Toast.LENGTH_LONG).show();
         } else {
             AlertDialog.Builder adb = new AlertDialog.Builder(this);
             adb.setCancelable(true);
