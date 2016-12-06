@@ -66,7 +66,7 @@ public class NewsfeedFragment extends Fragment {
         llm.setReverseLayout(true);
         llm.setStackFromEnd(true);
         postsView.setLayoutManager(llm);
-
+        postsView.smoothScrollToPosition(0);
         return rootView;
     }
 
