@@ -92,15 +92,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
+
+        // videoPlayer.setVideoSource(Uri.parse("android.resource://illinois.nao.nao/" + R.raw.naovideo));
+        name.setText(mUser.getDisplayName());
+        populateProfilePicture();
+        populateText();
+        populateImage();
+        populateVideo();
+        populateAudio();
+
         FloatingActionButton photo = (FloatingActionButton) view.findViewById(R.id.add_photo);
         FloatingActionButton video = (FloatingActionButton) view.findViewById(R.id.record_video);
         FloatingActionButton text  = (FloatingActionButton) view.findViewById(R.id.write_post);
         photo.setOnClickListener(this);
         video.setOnClickListener(this);
         text.setOnClickListener(this);
-
-        videoPlayer.setVideoSource(Uri.parse("android.resource://illinois.nao.nao/" + R.raw.naovideo));
-        mp = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.ifelephantscouldfly);
 
         buttonAudio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,11 +125,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
-        name.setText(mUser.getDisplayName());
-        populateProfilePicture();
-        populateText();
-
 
         return view;
     }
@@ -147,44 +148,54 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mUsersRef.child(mUser.getDisplayName()).addListenerForSingleValueEvent(userTextListener);
     }
 
-    public void populateVideo(File file) {
-        // TODO: given the video file, populate the video player
+    public void populateImage() {
+        StorageReference imageReference = mUserStorageRef.child("image.png");
+        StorageHelper.populateImage(imageReference, imageContent);
     }
 
-    private void setDownloadVideo(final String userName) {
-        ValueEventListener userVideoListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("videoPath").getValue() != null) {
-                    try {
-                        final File file = File.createTempFile("video", "mp4");
-                        String videoPath = dataSnapshot.child("videoPath").getValue(String.class);
-                        StorageReference userVideoRef = mAllUserStorageRef.child(userName).child("video/" + videoPath);
-                        userVideoRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                // Local temp file has been created
-                                populateVideo(file);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                            }
-                        });
-                    } catch (IOException e) {
-                        Log.d(TAG, e.getMessage());
-                    }
-
+    public void populateVideo() {
+        try {
+            final File file = File.createTempFile("video", "mp4");
+            StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("video.mp4");
+            userVideoRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    // Local temp file has been created
+                    videoPlayer.setVideoSource(Uri.fromFile(file));
                 }
-            }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+            videoPlayer.setVideoSource(Uri.fromFile(file));
+        } catch (IOException e) {
+            Log.d(TAG, "exception downloading files");
+        }
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        mUsersRef.child(userName).child(userName).addListenerForSingleValueEvent(userVideoListener);
+    public void populateAudio() {
+        try {
+            final File file = File.createTempFile("audio", "mp3");
+            StorageReference userVideoRef = mAllUserStorageRef.child(mUser.getDisplayName()).child("audio.mp3");
+            userVideoRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    // Local temp file has been created
+                    mp = MediaPlayer.create(getActivity().getApplicationContext(), Uri.fromFile(file));
+                    Log.d(TAG, "media player created");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+            videoPlayer.setVideoSource(Uri.fromFile(file));
+        } catch (IOException e) {
+            Log.d(TAG, "exception downloading files");
+        }
     }
 
     public void populateProfilePicture() {
