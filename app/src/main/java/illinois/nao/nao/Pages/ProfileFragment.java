@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -47,6 +48,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import illinois.nao.nao.R;
 import illinois.nao.nao.Storage.StorageHelper;
+import illinois.nao.nao.UX.AudioDialog;
+import illinois.nao.nao.UX.PostDialog;
 import illinois.nao.nao.User.User;
 import nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer;
 
@@ -96,9 +99,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         FloatingActionButton photo = (FloatingActionButton) view.findViewById(R.id.add_photo);
         FloatingActionButton video = (FloatingActionButton) view.findViewById(R.id.record_video);
         FloatingActionButton text  = (FloatingActionButton) view.findViewById(R.id.write_post);
+        FloatingActionButton audio = (FloatingActionButton) view.findViewById(R.id.record_audio);
         photo.setOnClickListener(this);
         video.setOnClickListener(this);
         text.setOnClickListener(this);
+        audio.setOnClickListener(this);
 
         videoPlayer.setVideoSource(Uri.parse("android.resource://illinois.nao.nao/" + R.raw.naovideo));
         mp = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.ifelephantscouldfly);
@@ -223,6 +228,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(final View view) {
         final int button = view.getId();
+        System.out.println(button);
         CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         if(button == R.id.record_video){
             options[0] = "Record Video";
@@ -254,7 +260,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                             }
                         }
-                    }else if(i == 0 && button == R.id.record_video){
+                    }else if(i == 0){
                         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                         if (takeVideoIntent.resolveActivity(getContext().getPackageManager()) != null) {
                             startActivityForResult(takeVideoIntent, REQUEST_RECORD_VIDEO);
@@ -271,7 +277,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 }
             });
             builder.show();
+        }else if(button == R.id.record_audio){
+            System.out.println("record");
+            AudioDialog dialog = new AudioDialog(view.getContext());
+            dialog.setContentView(R.layout.audio_dialog);
+            dialog.setTitle("Record Audio");
+            dialog.show();
+        }else if(button == R.id.write_post){
+            PostDialog dialog = new PostDialog(view.getContext());
         }
+
     }
 
     private File createImageFile() throws IOException {
