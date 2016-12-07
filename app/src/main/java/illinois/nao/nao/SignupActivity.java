@@ -25,6 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import illinois.nao.nao.Pages.ProfileFragment;
@@ -64,47 +67,159 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void signUp(View v) {
-        if (!isEmpty(email) && !isEmpty(password) && !isEmpty(password) && !isEmpty(userName) && !isEmpty(displayName)) {
-            if (password.getText().toString().equals(confirmPassword.getText().toString())) {
-                Log.d(TAG, "suh dude");
-                mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+        if(userName.getText().toString().contains("\t")||userName.getText().toString().contains("\\s")){
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setCancelable(true);
+            adb.setMessage("Username cannot contain tabs or whitespaces");
+            adb.setPositiveButton(
+                    "Try Again",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            AlertDialog alertPasswordMismatch = adb.create();
+            alertPasswordMismatch.show();
+            return;
+        }
+        Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+        Matcher m = p.matcher(email.getText().toString());
+        if(!m.matches()){
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setCancelable(true);
+            adb.setMessage("Invalid email address");
+            adb.setPositiveButton(
+                    "Try Again",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            AlertDialog alertPasswordMismatch = adb.create();
+            alertPasswordMismatch.show();
+            return;
+        }
+        if(password.getText().toString().length()<8){
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setCancelable(true);
+            adb.setMessage("Password must be at least 8 characters long");
+            adb.setPositiveButton(
+                    "Try Again",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            AlertDialog alertPasswordMismatch = adb.create();
+            alertPasswordMismatch.show();
+            return;
+        }
+        if(!password.getText().toString().matches(".*\\d.*")){
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setCancelable(true);
+            adb.setMessage("Password must contain at least one digit");
+            adb.setPositiveButton(
+                    "Try Again",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            AlertDialog alertPasswordMismatch = adb.create();
+            alertPasswordMismatch.show();
+            return;
+        }
+        if(!password.getText().toString().matches(".*[A-Z].*")){
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setCancelable(true);
+            adb.setMessage("Password must contain at least one uppercase letter");
+            adb.setPositiveButton(
+                    "Try Again",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            AlertDialog alertPasswordMismatch = adb.create();
+            alertPasswordMismatch.show();
+            return;
+        }
+        if(!password.getText().toString().matches(".*[a-z].*")){
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setCancelable(true);
+            adb.setMessage("Password must contain at least one lowercase letter");
+            adb.setPositiveButton(
+                    "Try Again",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            AlertDialog alertPasswordMismatch = adb.create();
+            alertPasswordMismatch.show();
+            return;
+        }
+        if(!password.getText().toString().matches(".*[~!.......].*")){
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setCancelable(true);
+            adb.setMessage("Password must contain at least one special character e.g. ~`!@#$%^&*()-_=+\\|[{]};:'\",<.>/?");
+            adb.setPositiveButton(
+                    "Try Again",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    }
+            );
+            AlertDialog alertPasswordMismatch = adb.create();
+            alertPasswordMismatch.show();
+            return;
+        }
+        if (password.getText().toString().equals(confirmPassword.getText().toString())) {
+            Log.d(TAG, "suh dude");
+            mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                    .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
-                                String nameString = displayName.getText().toString();
-                                String userNameString = userName.getText().toString();
+                            String nameString = displayName.getText().toString();
+                            String userNameString = userName.getText().toString();
 
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                User newUser = new User(firebaseUser, nameString, userNameString);
+                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            User newUser = new User(firebaseUser, nameString, userNameString);
 
-                                mUsersRef.child(userNameString).setValue(newUser);
-                                StorageReference userReference = mStorageRef.child("users").child(userNameString);
+                            mUsersRef.child(userNameString).setValue(newUser);
+                            StorageReference userReference = mStorageRef.child("users").child(userNameString);
 
-                                StorageReference profilePicRef = userReference.child("profile");
-                                Uri profilePicUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.profile);
-                                StorageHelper.uploadFile(profilePicUri, profilePicRef, null, null);
+                            StorageReference profilePicRef = userReference.child("profile");
+                            Uri profilePicUri = Uri.parse("android.resource://"+getPackageName()+"/" + R.drawable.profile);
+                            StorageHelper.uploadFile(profilePicUri, profilePicRef, null, null);
 
-                                StorageReference imageRef = userReference.child("image");
-                                Uri imageUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.image);
-                                StorageHelper.uploadFile(imageUri, imageRef, null, null);
+                            StorageReference imageRef = userReference.child("image");
+                            Uri imageUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.image);
+                            StorageHelper.uploadFile(imageUri, imageRef, null, null);
 
-                                StorageReference audioRef = userReference.child("audio");
-                                Uri audioUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ifelephantscouldfly);
-                                StorageHelper.uploadFile(audioUri, audioRef, null, null);
+                            StorageReference audioRef = userReference.child("audio");
+                            Uri audioUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.ifelephantscouldfly);
+                            StorageHelper.uploadFile(audioUri, audioRef, null, null);
 
-                                StorageReference videoRef = userReference.child("video");
-                                Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.naovideo);
-                                StorageHelper.uploadFile(videoUri, videoRef, null, null);
+                            StorageReference videoRef = userReference.child("video");
+                            Uri videoUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.naovideo);
+                            StorageHelper.uploadFile(videoUri, videoRef, null, null);
 
-                                finish();
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
+                            finish();
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
                                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                                    //TODO: getResult throws errors. Will throw error if password is < 6 characters
                                     Log.d(TAG, task.getResult() + "");
                                 }
                                 mAuth.getCurrentUser().sendEmailVerification();
@@ -123,12 +238,11 @@ public class SignupActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         }
-                );
-                AlertDialog alertPasswordMismatch = adb.create();
-                alertPasswordMismatch.show();
-            }
-        }else{
-            errorMessage.setText("One or more of the fields are empty!");
+            );
+
+        AlertDialog alertPasswordMismatch = adb.create();
+        alertPasswordMismatch.show();
+        return;
         }
     }
 
