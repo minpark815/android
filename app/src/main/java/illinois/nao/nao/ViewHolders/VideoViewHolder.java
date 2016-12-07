@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -26,12 +27,12 @@ import nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer;
 
 public class VideoViewHolder extends RecyclerView.ViewHolder {
     private final static String TAG = "newsfeed";
-    private ExposureVideoPlayer videoPlayer;
+    private EMVideoView videoPlayer;
     private TextView author;
 
     public VideoViewHolder(View v) {
         super(v);
-        videoPlayer = (ExposureVideoPlayer) v.findViewById(R.id.newsfeed_videoplayer);
+        videoPlayer = (EMVideoView) v.findViewById(R.id.newsfeed_videoplayer);
         author = (TextView) v.findViewById(R.id.username_text);
     }
 
@@ -44,7 +45,7 @@ public class VideoViewHolder extends RecyclerView.ViewHolder {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     // Local temp file has been created
-                    videoPlayer.setVideoSource(Uri.fromFile(videoFile));
+                    videoPlayer.setVideoPath(videoFile.getPath());
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -52,7 +53,6 @@ public class VideoViewHolder extends RecyclerView.ViewHolder {
                     // Handle any errors
                 }
             });
-            videoPlayer.setVideoSource(Uri.fromFile(videoFile));
         } catch (IOException e) {
             Log.d(TAG, "exception downloading files");
         }

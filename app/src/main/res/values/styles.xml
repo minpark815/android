@@ -15,4 +15,6 @@
         <item name="color">@color/colorAccent</item>
     </style>
 
+    <style name="Material.TextAppearance"></style>
+
 </resources>
