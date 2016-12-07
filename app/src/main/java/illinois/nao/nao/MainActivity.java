@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import illinois.nao.nao.Pages.NewsfeedFragment;
 import illinois.nao.nao.Pages.ProfileFragment;
-import illinois.nao.nao.Pages.SearchFragment;
+import illinois.nao.nao.Pages.PeopleFragment;
 import illinois.nao.nao.Pages.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private NewsfeedFragment newsfeedFragment;
     private ProfileFragment profileFragment;
-    private SearchFragment searchFragment;
+    private PeopleFragment peopleFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         newsfeedFragment = new NewsfeedFragment();
-        searchFragment = new SearchFragment();
+        peopleFragment = new PeopleFragment();
         profileFragment = new ProfileFragment();
 
         // toolbar_content.setNavigationIcon(R.drawable.icon);
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTabSelected(int position, boolean wasSelected) {
                 switch(position) {
                     case 0:
-                        // Search
-                        goToSearch();
+                        // People
+                        goToPeople();
                         break;
                     case 1:
                         // Profile
@@ -108,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.content_holder, new SettingsFragment()).commit();
     }
 
-    private void goToSearch() {
-        toolbar.setTitle("Search");
+    private void goToPeople() {
+        toolbar.setTitle("People");
         fragmentManager.beginTransaction()
-                .replace(R.id.content_holder, searchFragment).commit();
+                .replace(R.id.content_holder, peopleFragment).commit();
     }
 
     private void goToProfile() {

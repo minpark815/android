@@ -53,6 +53,13 @@ public class AudioViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                audioButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            }
+        });
     }
 
     public void bind(PostEvent model, StorageReference storageReference) {

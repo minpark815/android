@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="illinois.nao.nao.Pages.SearchFragment">
+    tools:context="illinois.nao.nao.Pages.PeopleFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_users"

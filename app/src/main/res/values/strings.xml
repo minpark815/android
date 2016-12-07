@@ -50,7 +50,7 @@
     <!-- BOTTOM NAV BAR -->
     <string name="newsfeed">Newsfeed</string>
     <string name="profile">Profile</string>
-    <string name="search">Search</string>
+    <string name="people">People</string>
     <string name="audio_prompt">Record Audio</string>
     <string name="post_prompt">Write a Post</string>
 </resources>

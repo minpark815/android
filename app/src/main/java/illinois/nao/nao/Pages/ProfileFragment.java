@@ -5,30 +5,22 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,8 +40,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,7 +48,6 @@ import illinois.nao.nao.Storage.StorageHelper;
 import illinois.nao.nao.UX.AudioDialog;
 import illinois.nao.nao.UX.PostDialog;
 import illinois.nao.nao.User.PostEvent;
-import illinois.nao.nao.User.User;
 import nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer;
 
 import static android.app.Activity.RESULT_OK;
@@ -180,7 +169,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if (userName.equals(mUser.getDisplayName())) {
             inflater.inflate(R.menu.profile_menu, menu);
         } else {
-            inflater.inflate(R.menu.search_menu, menu);
+            inflater.inflate(R.menu.people_menu, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
