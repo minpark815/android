@@ -67,12 +67,14 @@ public class AudioViewHolder extends RecyclerView.ViewHolder {
 
                     mp = MediaPlayer.create(audioButton.getContext(), Uri.fromFile(audioFile));
 
-                    mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mediaPlayer) {
-                            audioButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-                        }
-                    });
+                    if(mp != null) {
+                        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mediaPlayer) {
+                                audioButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                            }
+                        });
+                    }
                     Log.d(TAG, "media player created");
                 }
             }).addOnFailureListener(new OnFailureListener() {
