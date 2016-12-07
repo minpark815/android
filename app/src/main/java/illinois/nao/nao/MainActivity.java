@@ -1,6 +1,14 @@
 package illinois.nao.nao;
 
+
 import android.support.v4.app.FragmentManager;
+
+import android.*;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +25,9 @@ import illinois.nao.nao.Pages.PeopleFragment;
 import illinois.nao.nao.Pages.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    final private int PERMISSIONS_REQUEST_MICROPHONE = 1;
+    final private int PERMISSIONS_STORAGE = 2;
 
     @BindView(R.id.bottom_navigation) AHBottomNavigation bottomNavigation;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -49,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         AHBottomNavigationItem profile = new AHBottomNavigationItem(R.string.profile,
                 R.drawable.ic_person_black_24dp, R.color.cardview_light_background);
 
-        AHBottomNavigationItem search = new AHBottomNavigationItem(R.string.people,
+        AHBottomNavigationItem search = new AHBottomNavigationItem(R.string.search,
                 R.drawable.ic_group_black_24dp, R.color.cardview_light_background);
 
         bottomNavigation.addItem(search);
@@ -87,7 +98,24 @@ public class MainActivity extends AppCompatActivity {
 
         // Our starting page
         goToProfile();
-    }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.RECORD_AUDIO},
+                        PERMISSIONS_REQUEST_MICROPHONE);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSIONS_STORAGE);
+        }
+        }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

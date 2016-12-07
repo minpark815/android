@@ -64,67 +64,71 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void signUp(View v) {
-        if (password.getText().toString().equals(confirmPassword.getText().toString())) {
-            Log.d(TAG, "suh dude");
-            mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                    .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
-                            String nameString = displayName.getText().toString();
-                            String userNameString = userName.getText().toString();
-
-                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                            User newUser = new User(firebaseUser, nameString, userNameString);
-
-                            mUsersRef.child(userNameString).setValue(newUser);
-                            StorageReference userReference = mStorageRef.child("users").child(userNameString);
-
-                            StorageReference profilePicRef = userReference.child("profile");
-                            Uri profilePicUri = Uri.parse("android.resource://"+getPackageName()+"/" + R.drawable.profile);
-                            StorageHelper.uploadFile(profilePicUri, profilePicRef, null, null);
-
-                            StorageReference imageRef = userReference.child("image");
-                            Uri imageUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.image);
-                            StorageHelper.uploadFile(imageUri, imageRef, null, null);
-
-                            StorageReference audioRef = userReference.child("audio");
-                            Uri audioUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.ifelephantscouldfly);
-                            StorageHelper.uploadFile(audioUri, audioRef, null, null);
-
-                            StorageReference videoRef = userReference.child("video");
-                            Uri videoUri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.naovideo);
-                            StorageHelper.uploadFile(videoUri, videoRef, null, null);
-
-                            finish();
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
+        if (!isEmpty(email) && !isEmpty(password) && !isEmpty(password) && !isEmpty(userName) && !isEmpty(displayName)) {
+            if (password.getText().toString().equals(confirmPassword.getText().toString())) {
+                Log.d(TAG, "suh dude");
+                mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
                                 Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                                //TODO: getResult throws errors. Will throw error if password is < 6 characters
-                                Log.d(TAG, task.getResult() + "");
-                            }
-                            mAuth.getCurrentUser().sendEmailVerification();
-                        }
 
-                    });
-            Toast.makeText(SignupActivity.this, "Verification email sent!", Toast.LENGTH_LONG).show();
-        } else {
-            AlertDialog.Builder adb = new AlertDialog.Builder(this);
-            adb.setCancelable(true);
-            adb.setMessage("Are you sure the password and password confirmation matches?");
-            adb.setPositiveButton(
-                    "Try Again",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
+                                String nameString = displayName.getText().toString();
+                                String userNameString = userName.getText().toString();
+
+                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                User newUser = new User(firebaseUser, nameString, userNameString);
+
+                                mUsersRef.child(userNameString).setValue(newUser);
+                                StorageReference userReference = mStorageRef.child("users").child(userNameString);
+
+                                StorageReference profilePicRef = userReference.child("profile");
+                                Uri profilePicUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.profile);
+                                StorageHelper.uploadFile(profilePicUri, profilePicRef, null, null);
+
+                                StorageReference imageRef = userReference.child("image");
+                                Uri imageUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.image);
+                                StorageHelper.uploadFile(imageUri, imageRef, null, null);
+
+                                StorageReference audioRef = userReference.child("audio");
+                                Uri audioUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ifelephantscouldfly);
+                                StorageHelper.uploadFile(audioUri, audioRef, null, null);
+
+                                StorageReference videoRef = userReference.child("video");
+                                Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.naovideo);
+                                StorageHelper.uploadFile(videoUri, videoRef, null, null);
+
+                                finish();
+                                // If sign in fails, display a message to the user. If sign in succeeds
+                                // the auth state listener will be notified and logic to handle the
+                                // signed in user can be handled in the listener.
+                                if (!task.isSuccessful()) {
+                                    Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                                    //TODO: getResult throws errors. Will throw error if password is < 6 characters
+                                    Log.d(TAG, task.getResult() + "");
+                                }
+                                mAuth.getCurrentUser().sendEmailVerification();
+                            }
+
+                        });
+                Toast.makeText(SignupActivity.this, "Verification email sent!", Toast.LENGTH_LONG).show();
+            } else {
+                AlertDialog.Builder adb = new AlertDialog.Builder(this);
+                adb.setCancelable(true);
+                adb.setMessage("Are you sure the password and password confirmation matches?");
+                adb.setPositiveButton(
+                        "Try Again",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
                         }
-                    }
-            );
-            AlertDialog alertPasswordMismatch = adb.create();
-            alertPasswordMismatch.show();
+                );
+                AlertDialog alertPasswordMismatch = adb.create();
+                alertPasswordMismatch.show();
+            }
+        }else{
+            errorMessage.setText("One or more of the fields are empty!");
         }
     }
 
@@ -132,5 +136,13 @@ public class SignupActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
+    }
+
+    private boolean isEmpty(EditText etText) {
+        if (etText.getText().toString().trim().length() > 0)
+            return false;
+        else{
+            return true;
+        }
     }
 }
