@@ -20,6 +20,7 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import illinois.nao.nao.R;
 import illinois.nao.nao.User.PostEvent;
 
 /**
@@ -50,9 +51,16 @@ public class StorageHelper {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
                 String md5 = storageMetadata.getMd5Hash();
-                Glide.with(imageView.getContext()).using(new FirebaseImageLoader())
-                        .load(imageReference).signature(new StringSignature(md5))
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
+                if (imageView.getId() != R.id.profile_pic && imageView.getId() != R.id.imageView) {
+                    Glide.with(imageView.getContext()).using(new FirebaseImageLoader())
+                            .load(imageReference).signature(new StringSignature(md5))
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
+                } else {
+                    Glide.with(imageView.getContext()).using(new FirebaseImageLoader())
+                            .load(imageReference).signature(new StringSignature(md5))
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE).centerCrop()
+                            .override(imageView.getWidth(), imageView.getHeight()).into(imageView);
+                }
             }
         });
     }
