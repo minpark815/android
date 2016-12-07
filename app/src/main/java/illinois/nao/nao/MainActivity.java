@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         AHBottomNavigationItem profile = new AHBottomNavigationItem(R.string.profile,
                 R.drawable.ic_person_black_24dp, R.color.cardview_light_background);
 
-        AHBottomNavigationItem search = new AHBottomNavigationItem(R.string.search,
+        AHBottomNavigationItem search = new AHBottomNavigationItem(R.string.people,
                 R.drawable.ic_group_black_24dp, R.color.cardview_light_background);
 
         bottomNavigation.addItem(search);
