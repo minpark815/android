@@ -38,7 +38,7 @@ public class AudioViewHolder extends RecyclerView.ViewHolder {
         audioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Media Player", "Is Playing: " + mp.isPlaying());
+                //Log.i("Media Player", "Is Playing: " + mp.isPlaying());
                 if (mp != null) {
                     if (mp.isPlaying()) {
                         mp.pause();
