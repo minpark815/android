@@ -66,6 +66,13 @@ public class AudioViewHolder extends RecyclerView.ViewHolder {
                     // Local temp file has been created
 
                     mp = MediaPlayer.create(audioButton.getContext(), Uri.fromFile(audioFile));
+
+                    mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            audioButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                        }
+                    });
                     Log.d(TAG, "media player created");
                 }
             }).addOnFailureListener(new OnFailureListener() {

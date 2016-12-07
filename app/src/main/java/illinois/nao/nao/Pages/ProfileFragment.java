@@ -5,26 +5,20 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -49,8 +43,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,7 +51,6 @@ import illinois.nao.nao.Storage.StorageHelper;
 import illinois.nao.nao.UX.AudioDialog;
 import illinois.nao.nao.UX.PostDialog;
 import illinois.nao.nao.User.PostEvent;
-import illinois.nao.nao.User.User;
 import nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer;
 
 import static android.app.Activity.RESULT_OK;
@@ -145,6 +136,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             floatingActionMenu.setVisibility(View.GONE);
             CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) floatingActionMenu.getLayoutParams();
             params.setBehavior(null);
+            profile.setOnClickListener(null);
             floatingActionMenu.setLayoutParams(params);
         }
 
@@ -177,7 +169,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.profile_menu, menu);
+        if (userName.equals(mUser.getDisplayName())) {
+            inflater.inflate(R.menu.profile_menu, menu);
+        } else {
+            inflater.inflate(R.menu.people_menu, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -243,6 +239,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     // Local temp file has been created
 
                     mp = MediaPlayer.create(getContext(), Uri.fromFile(audioFile));
+
+                    mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            buttonAudio.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                        }
+                    });
                     Log.d(TAG, "media player created");
                 }
             }).addOnFailureListener(new OnFailureListener() {

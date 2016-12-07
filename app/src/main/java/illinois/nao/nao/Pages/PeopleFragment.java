@@ -13,14 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.w3c.dom.Text;
 
 import java.net.URI;
 
@@ -28,14 +27,14 @@ import butterknife.BindView;
 import illinois.nao.nao.R;
 import illinois.nao.nao.Storage.StorageHelper;
 
-public class SearchFragment extends Fragment {
+public class PeopleFragment extends Fragment {
 
     @BindView(R.id.recyclerView_users) RecyclerView userList;
     FirebaseRecyclerAdapter<User, UserHolder> mRecyclerViewAdapter;
     private FirebaseDatabase database;
     private StorageReference storageReference;
 
-    public SearchFragment() {
+    public PeopleFragment() {
         // Required empty public constructor
     }
 
@@ -58,17 +57,21 @@ public class SearchFragment extends Fragment {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        FragmentManager manager = getActivity().getSupportFragmentManager();
-                        ProfileFragment fragment = new ProfileFragment();
-                        Bundle args = new Bundle();
-                        args.putString("userName", user.getUserName());
-                        fragment.setArguments(args);
-                        manager.beginTransaction().replace(R.id.content_holder, fragment).commit();
+                        if (!user.getUserName().equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
+                            FragmentManager manager = getActivity().getSupportFragmentManager();
+                            ProfileFragment fragment = new ProfileFragment();
+                            Bundle args = new Bundle();
+                            args.putString("userName", user.getUserName());
+                            fragment.setArguments(args);
+                            manager.beginTransaction().replace(R.id.content_holder, fragment).commit();
+                        } else {
+                            Toast.makeText(getContext(), "This is you!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
         };
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_people, container, false);
         userList = (RecyclerView) view.findViewById(R.id.recyclerView_users);
         userList.setAdapter(mRecyclerViewAdapter);
         userList.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
@@ -83,7 +86,7 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu, menu);
+        inflater.inflate(R.menu.people_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
