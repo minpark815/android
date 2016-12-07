@@ -144,6 +144,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             floatingActionMenu.setVisibility(View.GONE);
             CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) floatingActionMenu.getLayoutParams();
             params.setBehavior(null);
+            profile.setOnClickListener(null);
             floatingActionMenu.setLayoutParams(params);
         }
 
@@ -176,7 +177,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.profile_menu, menu);
+        if (userName.equals(mUser.getDisplayName())) {
+            inflater.inflate(R.menu.profile_menu, menu);
+        } else {
+            inflater.inflate(R.menu.search_menu, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
