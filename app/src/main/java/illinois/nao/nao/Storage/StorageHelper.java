@@ -51,15 +51,15 @@ public class StorageHelper {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
                 String md5 = storageMetadata.getMd5Hash();
-                if (imageView.getId() != R.id.profile_pic) {
+                if (imageView.getId() != R.id.profile_pic && imageView.getId() != R.id.imageView) {
                     Glide.with(imageView.getContext()).using(new FirebaseImageLoader())
                             .load(imageReference).signature(new StringSignature(md5))
-                            .diskCacheStrategy(DiskCacheStrategy.SOURCE).centerCrop().into(imageView);
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 } else {
                     Glide.with(imageView.getContext()).using(new FirebaseImageLoader())
                             .load(imageReference).signature(new StringSignature(md5))
-                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                            .override(imageView.getWidth(), imageView.getHeight()).centerCrop().into(imageView);
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE).centerCrop()
+                            .override(imageView.getWidth(), imageView.getHeight()).into(imageView);
                 }
             }
         });
