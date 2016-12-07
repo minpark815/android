@@ -155,6 +155,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                buttonAudio.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            }
+        });
+
         return view;
     }
 
