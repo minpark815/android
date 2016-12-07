@@ -28,6 +28,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -72,7 +73,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final int PICK_VIDEO_FILE = 1004;
     private static final int CHANGE_PROFILE = 1005;
 
-    @BindView(R.id.profile_videoplayer) ExposureVideoPlayer videoPlayer;
+    @BindView(R.id.profile_videoplayer) EMVideoView videoPlayer;
     @BindView(R.id.profile_button_audio) ImageButton buttonAudio;
     @BindView(R.id.scrollView_profile) NestedScrollView scrollView;
     @BindView(R.id.textView_textContent) TextView textContent;
@@ -217,8 +218,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     // Local temp file has been created
-
-                    videoPlayer.setVideoSource(Uri.fromFile(videoFile));
+                    videoPlayer.setVideoPath(videoFile.getPath());
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

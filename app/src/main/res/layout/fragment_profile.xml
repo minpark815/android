@@ -132,16 +132,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp" />
 
-                <nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer
+                <com.devbrackets.android.exomedia.ui.widget.EMVideoView
+                    xmlns:EMVideoView="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/profile_videoplayer"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     app:layout_constraintBottom_toTopOf="@+id/imageView2"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView_textContent">
+                    app:layout_constraintTop_toBottomOf="@+id/textView_textContent"
+                    EMVideoView:useDefaultControls="true">
 
-                </nz.co.delacour.exposurevideoplayer.ExposureVideoPlayer>
+                </com.devbrackets.android.exomedia.ui.widget.EMVideoView>
 
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
