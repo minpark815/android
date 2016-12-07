@@ -155,13 +155,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                buttonAudio.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-            }
-        });
-
         return view;
     }
 
@@ -244,6 +237,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     // Local temp file has been created
 
                     mp = MediaPlayer.create(getContext(), Uri.fromFile(audioFile));
+
+                    mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            buttonAudio.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                        }
+                    });
                     Log.d(TAG, "media player created");
                 }
             }).addOnFailureListener(new OnFailureListener() {
